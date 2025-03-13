@@ -1,6 +1,3 @@
-import random
-import string
-
 from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.core.validators import FileExtensionValidator
@@ -11,7 +8,9 @@ from apps.utils.models.base_model import BaseModel
 
 
 class CustomUserManager(UserManager):
+
     def _create_user(self, email, password, **extra_fields):
+        email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.password = make_password(password)
         user.save(using=self._db)
@@ -52,7 +51,7 @@ class CustomUser(BaseModel, AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
-    user_code = models.CharField(max_length=50, unique=True,blank=True,null=True)
+    user_code = models.CharField(max_length=50, unique=True, blank=True, null=True)
     balance = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     correct_answers = models.FloatField(default=0)
@@ -62,34 +61,3 @@ class CustomUser(BaseModel, AbstractUser):
         max_length=50,
         default=AuthProviders.EMAIL)
 
-
-    def __str__(self):
-        return f'Full name: {self.full_name}'
-
-
-    def clean(self):
-        len_full_name = len(self.full_name.strip().split())
-        if len_full_name != 2:
-
-            raise ValueError({'error': 'Full name should be like this Jon Dou'})
-
-    def _make_first_and_last_name(self):
-        name = self.full_name.strip().split()
-        self.first_name = name[0]
-        self.last_name = name[1] if len(name) < 2 else 0
-
-    def save(self, *args, **kwargs):
-        self._make_first_and_last_name()
-        if not self.pk:
-
-
-            self.coins = 10
-
-            exists_code = set(CustomUser.objects.values_list('user_code', flat=True))
-            while True:
-                characters = string.ascii_letters + string.digits
-                code = ''.join(random.choices(characters, k=8))
-                if code not in exists_code:
-                    self.user_code = code
-                    break
-        super().save(*args, **kwargs)
