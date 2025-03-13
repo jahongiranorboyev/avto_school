@@ -51,7 +51,7 @@ class CustomUser(BaseModel, AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
-    user_code = models.CharField(max_length=50, unique=True,blank=True,null=True)
+    user_code = models.CharField(max_length=50, unique=True, blank=True, null=True)
     balance = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     correct_answers = models.FloatField(default=0)
