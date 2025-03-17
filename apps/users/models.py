@@ -1,6 +1,9 @@
 import random
 import string
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.core.validators import FileExtensionValidator
@@ -71,7 +74,11 @@ class CustomUser(BaseModel, AbstractUser):
     def clean(self):
         len_full_name = len(self.full_name.strip().split())
         if len_full_name != 2:
+<<<<<<< Updated upstream
             raise ValueError({'error': 'Full name should be like this Jon Dou'})
+=======
+            raise ValueError({'error': _('Full name should be like this Jon Dou')})
+>>>>>>> Stashed changes
 
     def _make_first_and_last_name(self):
         name = self.full_name.strip().split()
@@ -82,6 +89,10 @@ class CustomUser(BaseModel, AbstractUser):
         self._make_first_and_last_name()
         if not self.pk:
 
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
             self.coins = 10
 
             exists_code = set(CustomUser.objects.values_list('user_code', flat=True))
