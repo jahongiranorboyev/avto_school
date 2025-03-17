@@ -11,7 +11,7 @@ REST_FRAMEWORK= {
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.BasicAuthentication'
+        'rest_framework.authentication.BasicAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
@@ -71,16 +71,6 @@ REST_FRAMEWORK= {
     'URL_FORMAT_OVERRIDE': 'format',
     'FORMAT_SUFFIX_KWARG': 'format',
     'URL_FIELD_NAME': 'url',
-
-    # # Input and output formats
-    # 'DATE_FORMAT': ISO_8601,
-    # 'DATE_INPUT_FORMATS': [ISO_8601],
-    #
-    # 'DATETIME_FORMAT': ISO_8601,
-    # 'DATETIME_INPUT_FORMATS': [ISO_8601],
-    #
-    # 'TIME_FORMAT': ISO_8601,
-    # 'TIME_INPUT_FORMATS': [ISO_8601],
 
     # Encoding
     'UNICODE_JSON': True,
