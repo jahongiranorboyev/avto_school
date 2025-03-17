@@ -72,6 +72,7 @@ class CustomUser(BaseModel, AbstractUser):
         len_full_name = len(self.full_name.strip().split())
         if len_full_name != 2:
 
+
             raise ValueError({'error': 'Full name should be like this Jon Dou'})
 
     def _make_first_and_last_name(self):
@@ -82,6 +83,7 @@ class CustomUser(BaseModel, AbstractUser):
     def save(self, *args, **kwargs):
         self._make_first_and_last_name()
         if not self.pk:
+
 
             self.coins = 10
 
