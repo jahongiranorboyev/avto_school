@@ -1,24 +1,13 @@
-<<<<<<< HEAD
-from django.utils import timezone
-
-=======
 import base64
 
 from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import get_language
 
->>>>>>> b6888bd (quizzes done !)
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-<<<<<<< HEAD
-from apps.general.models import Tariff
-from apps.payments.models import Order, Transaction
-from apps.utils.services.payments.generate_url import generate_payment_url
-from apps.utils.services.payments.check_payment_functions import validation
-=======
 from apps.payments.models import Order, Transaction
 from apps.general.models import Tariff
 
@@ -34,7 +23,6 @@ def generate_payment_url(order):
               )
     params = base64.b64encode(params.encode()).decode()
     return f'https://checkout.paycom.uz/?{params}'
->>>>>>> b6888bd (quizzes done !)
 
 
 class PaymentLinkAPIView(APIView):
@@ -54,8 +42,6 @@ class PaymentLinkAPIView(APIView):
         url = generate_payment_url(order)
         return Response({'url': url}, status=status.HTTP_200_OK)
 
-<<<<<<< HEAD
-=======
 def check_auth(view, request):
     token = request.headers.get('Authorization')
     token = token.split()[-1]
@@ -184,7 +170,6 @@ def validation(func):
 
     return wrapper
 
->>>>>>> b6888bd (quizzes done !)
 
 class PaymeWebhookAPIView(APIView):
     order = transaction = None

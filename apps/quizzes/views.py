@@ -5,60 +5,6 @@ from .models import (
 )
 from .serializers import (
     QuestionCategorySerializer, UserQuestionCategorySerializer, QuestionSerializer,
-<<<<<<< HEAD
-     SavedQuestionSerializer, QuizResultSerializer
-)
-
-
-# QuestionCategory API
-class QuestionCategoryListCreateAPIView(generics.ListCreateAPIView):
-    queryset = QuestionCategory.objects.all()
-    serializer_class = QuestionCategorySerializer
-
-
-class QuestionCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = QuestionCategory.objects.all()
-    serializer_class = QuestionCategorySerializer
-
-
-# UserQuestionCategory API
-class UserQuestionCategoryListAPIView(generics.ListAPIView):
-    queryset = UserQuestionCategory.objects.all()
-    serializer_class = UserQuestionCategorySerializer
-
-
-class UserQuestionCategoryDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = UserQuestionCategory.objects.all()
-    serializer_class = UserQuestionCategorySerializer
-
-
-# Question API
-class QuestionListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-
-
-class QuestionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Question.objects.all()
-    serializer_class = QuestionSerializer
-
-# SavedQuestion API
-class SavedQuestionListCreateAPIView(generics.ListCreateAPIView):
-    queryset = SavedQuestion.objects.all()
-    serializer_class = SavedQuestionSerializer
-
-class SavedQuestionDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
-    queryset = SavedQuestion.objects.all()
-    serializer_class = SavedQuestionSerializer
-
-
-class QuizResultCreateView(generics.CreateAPIView):
-    queryset = QuizResult.objects.all()
-    serializer_class = QuizResultSerializer
-
-
-
-=======
     QuestionVariantSerializer, SavedQuestionSerializer, CorrectQuestionSerializer,
     IncorrectQuestionSerializer, QuizeResultSerializer
 )
@@ -166,4 +112,3 @@ class QuizeResultDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = QuizResult.objects.all()
     serializer_class = QuizeResultSerializer
     permission_classes = [permissions.IsAuthenticated]
->>>>>>> b6888bd (quizzes done !)

@@ -56,31 +56,6 @@ PAYME_CASH_BOX_ID = os.environ.get("PAYME_CASH_BOX_ID")
 PAYME_CASH_BOX_TEST_KEY = os.environ.get("PAYME_CASH_BOX_TEST_KEY")
 
 CSRF_TRUSTED_ORIGINS = [
-<<<<<<< HEAD
-    'https://590c-188-113-238-102.ngrok-free.app',
-    'http://127.0.0.1:8000',
-]
-
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/1",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
-
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = 'hsrf bhwa iehf aoaw'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-=======
     'https://fcf4-94-158-57-109.ngrok-free.app',
     'http://127.0.0.1:8000',
 ]
->>>>>>> b6888bd (quizzes done !)

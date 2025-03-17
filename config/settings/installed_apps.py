@@ -24,10 +24,6 @@ MY_APPS = [
 
 THIRD_PARTY_APPS = [
     'rest_framework',
-<<<<<<< HEAD
-    'rest_framework_simplejwt',
-=======
->>>>>>> b6888bd (quizzes done !)
     'drf_yasg',
 ]
 
