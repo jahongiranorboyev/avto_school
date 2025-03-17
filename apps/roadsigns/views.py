@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from apps.roadsigns.models import RoadSign
+from apps.roadsigns.serializers import RoadSignSerializer
+
+class RoadSignViewSet(viewsets.ModelViewSet):
+    queryset = RoadSign.objects.all()
+    serializer_class = RoadSignSerializer
