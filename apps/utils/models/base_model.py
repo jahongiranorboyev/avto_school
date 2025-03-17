@@ -4,7 +4,11 @@ from django.conf import settings
 
 class BaseModel(models.Model):
 
-    id = models.UUIDField(primary_key=True, editable=False)
+    id = models.UUIDField(
+        primary_key=True,
+        unique=True,
+        editable=False
+    )
     created_at = models.DateTimeField(
         auto_now_add=True,
         editable=False

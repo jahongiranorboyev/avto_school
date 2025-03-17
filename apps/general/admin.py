@@ -1,3 +1,12 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.general.models import Tariff, Discount
+
+
+@admin.register(Tariff)
+class TariffAdmin(admin.ModelAdmin):
+    pass
+
+@admin.register(Discount)
+class DiscountAdmin(admin.ModelAdmin):
+    pass
