@@ -7,3 +7,5 @@ DATABASES = {
         'NAME': settings.BASE_DIR / 'db.sqlite3',
     }
 }
+
+
