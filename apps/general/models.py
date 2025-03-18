@@ -26,12 +26,12 @@ class Report(BaseModel):
     )
     lesson = models.ForeignKey(
         to='lessons.Lesson',
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name=_('Lesson'),
     )
     question = models.ForeignKey(
         to='quizzes.Question',
-        on_delete=models.CASCADE,
+        on_delete=models.PROTECT,
         verbose_name=_('Question'),
     )
     report_type = models.CharField(
