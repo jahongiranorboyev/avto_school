@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.db import models
 
 from apps.utils.models import BaseModel
-from config import settings
 
 
 class Order(BaseModel):
