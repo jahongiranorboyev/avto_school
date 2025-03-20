@@ -9,6 +9,7 @@ from django.contrib.auth.models import UserManager, AbstractUser
 from apps.utils.models.base_model import BaseModel
 
 
+
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         user = self.model(email=email, **extra_fields)
@@ -51,7 +52,7 @@ class CustomUser(BaseModel, AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
-    user_code = models.CharField(max_length=50, blank=True, null=True)
+    user_code = models.CharField(max_length=50, unique=True)
     balance = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     correct_answers = models.FloatField(default=0)
