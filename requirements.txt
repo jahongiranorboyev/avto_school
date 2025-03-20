@@ -18,10 +18,6 @@ google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.1
 httplib2==0.22.0
 Faker==37.1.0
-google-auth==2.38.0
-google-auth-httplib2==0.2.0
-google-auth-oauthlib==1.2.1
-httplib2==0.22.0
 idna==3.10
 inflection==0.5.1
 oauthlib==3.2.2
