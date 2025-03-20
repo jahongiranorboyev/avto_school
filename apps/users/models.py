@@ -7,7 +7,6 @@ from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import UserManager, AbstractUser
 
 from apps.utils.models.base_model import BaseModel
-from rest_framework_simplejwt.tokens import RefreshToken
 
 
 
@@ -53,7 +52,7 @@ class CustomUser(BaseModel, AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
-    user_code = models.CharField(max_length=50, blank=True, null=True)
+    user_code = models.CharField(max_length=50, unique=True)
     balance = models.PositiveSmallIntegerField(default=0)
     coins = models.PositiveSmallIntegerField(default=0)
     correct_answers = models.FloatField(default=0)
@@ -69,7 +68,6 @@ class CustomUser(BaseModel, AbstractUser):
 
 
     def clean(self):
-        super().clean()
         len_full_name = len(self.full_name.strip().split())
         if len_full_name != 2:
 
@@ -95,13 +93,3 @@ class CustomUser(BaseModel, AbstractUser):
                     self.user_code = code
                     break
         super().save(*args, **kwargs)
-
-    def tokens(self):
-        refresh = RefreshToken.for_user(self)
-        return {
-            'refresh': str(refresh),
-            'access': str(refresh.access_token)
-        }
-
-
-
