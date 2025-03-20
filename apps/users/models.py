@@ -2,15 +2,12 @@ import random
 import string
 
 from django.db import models
-from django.db.models import Sum, Avg
 from django.contrib.auth.hashers import make_password
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import UserManager, AbstractUser
 
-from apps.general.models import Level
-from apps.quizzes.models import QuizResult
+from apps.general.models import Coin
 from apps.utils.models.base_model import BaseModel
-from rest_framework_simplejwt.tokens import RefreshToken
 
 
 
@@ -76,40 +73,8 @@ class CustomUser(BaseModel, AbstractUser):
         super().clean()
         len_full_name = len(self.full_name.strip().split())
         if len_full_name != 2:
+
             raise ValueError({'error': 'Full name should be like this Jon Dou'})
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.update_level()
-        self.update_users_correct_answers()
-
-    def update_users_correct_answers(self):
-        if self.pk:
-            total_correct_answers = QuizResult.objects.filter(
-                user__id=self.pk).aggregate(
-                total_answer=Sum('correct_answers'))['total_answer'] or 0
-            self.correct_answers = total_correct_answers
-
-
-
-
-    def update_level(self):
-        if self.pk:
-            """
-                Foydalanuvchi coins asosida darajasini yangilaydi.
-            """
-            min_level = Level.objects.all().order_by('coins').first()
-            max_level = Level.objects.all().order_by('coins').last()
-            if self.coins < max_level.coins:
-                if self.coins >= min_level.coins:
-                    users_level_coins = Level.objects.all().order_by('-coins')
-                    for index, level_data in enumerate(users_level_coins):
-                        if self.coins >= level_data.coins:
-                            if index <= len(users_level_coins):
-                                next_level = users_level_coins[index - 1]
-                                self.level = next_level
-                                return self.level
-
 
     def _make_first_and_last_name(self):
         name = self.full_name.strip().split()
