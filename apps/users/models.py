@@ -6,7 +6,6 @@ from django.contrib.auth.hashers import make_password
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import UserManager, AbstractUser
 
-from apps.general.models import Coin
 from apps.utils.models.base_model import BaseModel
 
 
