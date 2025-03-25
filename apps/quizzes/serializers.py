@@ -1,12 +1,18 @@
 from rest_framework import serializers
+<<<<<<< HEAD
 from django.contrib.auth import get_user_model
+=======
+>>>>>>> b6888bd (quizzes done !)
 from .models import (
     QuestionCategory, UserQuestionCategory, Question, QuestionVariant,
     SavedQuestion, CorrectQuestion, IncorrectQuestion, QuizResult
 )
+<<<<<<< HEAD
 from ..lessons.models import Lesson
 
 User = get_user_model()
+=======
+>>>>>>> b6888bd (quizzes done !)
 
 
 class QuestionCategorySerializer(serializers.ModelSerializer):
@@ -26,11 +32,22 @@ class QuestionSerializer(serializers.ModelSerializer):
         model = Question
         fields = '__all__'
 
+<<<<<<< HEAD
+=======
+
+class QuestionVariantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuestionVariant
+        fields = '__all__'
+
+
+>>>>>>> b6888bd (quizzes done !)
 class SavedQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = SavedQuestion
         fields = '__all__'
 
+<<<<<<< HEAD
 class QuizResultSerializer(serializers.ModelSerializer):
     user_id = serializers.IntegerField(write_only=True)
     quiz_category_id = serializers.IntegerField(write_only=True, required=False)
@@ -91,3 +108,22 @@ class QuizResultSerializer(serializers.ModelSerializer):
             quiz_result.question_category.add(category)
 
         return quiz_result
+=======
+
+class CorrectQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CorrectQuestion
+        fields = '__all__'
+
+
+class IncorrectQuestionSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = IncorrectQuestion
+        fields = '__all__'
+
+
+class QuizeResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = QuizResult
+        fields = '__all__'
+>>>>>>> b6888bd (quizzes done !)

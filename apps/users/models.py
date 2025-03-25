@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import random
 import string
 
@@ -91,3 +92,12 @@ class CustomUser(BaseModel, AbstractUser):
                     self.user_code = code
                     break
         super().save(*args, **kwargs)
+=======
+
+from django.contrib.auth.models import  AbstractUser
+
+from apps.utils.models.base_model import BaseModel
+
+class CustomUser(BaseModel, AbstractUser):
+    pass
+>>>>>>> b6888bd (quizzes done !)
