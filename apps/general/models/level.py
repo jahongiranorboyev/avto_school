@@ -2,6 +2,7 @@ from django.db import models
 from django.utils.translation import gettext_lazy as _
 
 from apps.utils.models import BaseModel
+from apps.general.validate_image_size import validate_image_size
 
 
 class Level(BaseModel):
@@ -13,7 +14,8 @@ class Level(BaseModel):
         null=True,
         blank=True,
         verbose_name=_('Icon'),
-        upload_to='icons/images/%Y/%m/%d/'
+        upload_to='icons/images/%Y/%m/%d/',
+        validators=[validate_image_size],
 
     )
     coins = models.IntegerField(
