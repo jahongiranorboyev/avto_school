@@ -13,7 +13,6 @@ from apps.utils.models.base_model import BaseModel
 from rest_framework_simplejwt.tokens import RefreshToken
 
 
-
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
         user = self.model(email=email, **extra_fields)
@@ -56,6 +55,7 @@ class CustomUser(BaseModel, AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
+    user_code = models.CharField(max_length=50, blank=True, null=True)
     level = models.ForeignKey('general.Level', on_delete=models.CASCADE, blank=True, null=True)
     user_code = models.CharField(max_length=50, unique=True, blank=True, null=True)
     balance = models.PositiveSmallIntegerField(default=0)
@@ -76,6 +76,7 @@ class CustomUser(BaseModel, AbstractUser):
         super().clean()
         len_full_name = len(self.full_name.strip().split())
         if len_full_name != 2:
+
             raise ValueError({'error': 'Full name should be like this Jon Dou'})
 
     def __init__(self, *args, **kwargs):
