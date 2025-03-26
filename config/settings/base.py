@@ -88,3 +88,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 EMAIL_HOST_USER = 'hikmatovsanjar885@gmail.com'
 EMAIL_HOST_PASSWORD = 'lhtt czwv kozp kcjx'
+CSP_DEFAULT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com")
+CSP_SCRIPT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com", "'unsafe-inline'", "'unsafe-eval'")
