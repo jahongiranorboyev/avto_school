@@ -2,15 +2,13 @@ import random
 import string
 
 from django.db import models
-from django.db.models import Sum, Avg
 from django.contrib.auth.hashers import make_password
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import UserManager, AbstractUser
 
-from apps.general.models import Level
-from apps.quizzes.models import QuizResult
 from apps.utils.models.base_model import BaseModel
 from rest_framework_simplejwt.tokens import RefreshToken
+
 
 
 class CustomUserManager(UserManager):
@@ -76,7 +74,6 @@ class CustomUser(BaseModel, AbstractUser):
         super().clean()
         len_full_name = len(self.full_name.strip().split())
         if len_full_name != 2:
-
             raise ValueError({'error': 'Full name should be like this Jon Dou'})
 
     def __init__(self, *args, **kwargs):
