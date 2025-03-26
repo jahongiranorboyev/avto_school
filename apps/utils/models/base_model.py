@@ -7,15 +7,14 @@ class BaseModel(models.Model):
     id = models.UUIDField(
         primary_key=True,
         unique=True,
-        editable=False
+        editable=False,
+        default=uuid.uuid4
     )
     created_at = models.DateTimeField(
         auto_now_add=True,
-        editable=False
     )
     updated_at = models.DateTimeField(
         auto_now=True,
-        editable=False
     )
     created_by = models.ForeignKey(
         settings.AUTH_USER_MODEL,
