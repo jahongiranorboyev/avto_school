@@ -12,8 +12,3 @@ class UserListAPIView(generics.ListAPIView):
 class UserQuizzesDashboardListAPIView(generics.ListAPIView):
     queryset = CustomUser.objects.order_by('-created_at')
     serializer_class = UserQuizzesDashboardSerializer
-    #
-    # def get_serializer_context(self):
-    #     context = super().get_serializer_context()
-    #     context['quizz_catogory'] = list(UserQuestionCategory.objects.all())
-    #     return context
