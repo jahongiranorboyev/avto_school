@@ -33,3 +33,16 @@ six==1.17.0
 sqlparse==0.5.3
 uritemplate==4.1.1
 urllib3==2.3.0
+django-cors-headers==4.7.0
+cachetools==5.5.2
+google-auth==2.38.0
+google-auth-httplib2==0.2.0
+google-auth-oauthlib==1.2.1
+httplib2==0.22.0
+oauthlib==3.2.2
+pyasn1==0.6.1
+pyasn1_modules==0.4.1
+pyparsing==3.2.2
+requests-oauthlib==2.0.0
+rsa==4.9
+six==1.17.0
