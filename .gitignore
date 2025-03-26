@@ -36,6 +36,9 @@ media/
 **/migrations/__pycache__/
 **/migrations/*.pyc
 **/migrations/*.pyo
+**/migrations/**
+!**/migrations
+!**/migrations/__init__.py
 
 # Logs
 logs/
