@@ -9,6 +9,7 @@ urlpatterns = [
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
 
     path('admin/', admin.site.urls),
+
     path('api/v1/quizzes/', include('apps.quizzes.urls')),
     path('api/v1/payment/', include('apps.payments.urls')),
     path('api/v1/auth/', include('apps.authentications.urls')),
