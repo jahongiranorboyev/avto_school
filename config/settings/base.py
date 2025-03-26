@@ -80,12 +80,6 @@ EMAIL_HOST_PASSWORD = 'lhtt czwv kozp kcjx'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
 
 
 CSP_DEFAULT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com")
