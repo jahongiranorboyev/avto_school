@@ -24,9 +24,13 @@ google-auth-httplib2==0.2.0
 google-auth-oauthlib==1.2.1
 httplib2==0.22.0
 inflection==0.5.1
+oauthlib==3.2.2
 packaging==24.2
 pillow==11.1.0
+pyasn1==0.6.1
+pyasn1_modules==0.4.1
 PyJWT==2.9.0
+pyparsing==3.2.2
 python-dotenv==1.0.1
 pytz==2025.1
 PyYAML==6.0.2
