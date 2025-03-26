@@ -4,13 +4,12 @@ import os
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from apps.authentications.register import register_social_user
-from django.conf import settings
+
 def google(request):
     return render(request=request, template_name='google_login.html')
 
 @api_view(['POST'])
 def google_auth_token(request):
-    print('hellloooooooooooooo')
     """
     Google tokenini dekodlash va foydalanuvchini aniqlash
     """
@@ -22,7 +21,7 @@ def google_auth_token(request):
     except KeyError:
         raise ValueError({'error': 'The token is invalid or expired. Please login again'})
 
-    if user_data['aud'] != settings.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY:
+    if user_data['aud'] != os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY'):
         raise ValueError('oops who are you')
 
     user_id = user_data['sub']
