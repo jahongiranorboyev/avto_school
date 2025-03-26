@@ -1,3 +1,6 @@
+from django.conf import settings
+# settings.BASE_DIR / "templates"
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
