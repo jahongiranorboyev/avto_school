@@ -56,7 +56,7 @@ PAYME_CASH_BOX_ID = os.environ.get("PAYME_CASH_BOX_ID")
 PAYME_CASH_BOX_TEST_KEY = os.environ.get("PAYME_CASH_BOX_TEST_KEY")
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://590c-188-113-238-102.ngrok-free.app',
+    'https://fcf4-94-158-57-109.ngrok-free.app',
     'http://127.0.0.1:8000',
 ]
 
@@ -75,10 +75,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = 'hsrf bhwa iehf aoaw'
+EMAIL_HOST_USER = 'hikmatovsanjar885@gmail.com'
+EMAIL_HOST_PASSWORD = 'lhtt czwv kozp kcjx'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
