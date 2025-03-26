@@ -41,7 +41,7 @@ class Discount(BaseModel):
 
 class Tariff(BaseModel):
     title = models.CharField(max_length=100)
-    days = models.IntegerField(default=0)
+    days =  models.IntegerField(default=0)
     price = models.IntegerField(default=0)
     discount = models.ForeignKey('general.Discount', on_delete=models.PROTECT)
 
