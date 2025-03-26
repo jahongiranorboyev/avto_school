@@ -12,7 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 
 from apps.users.models import CustomUser
 from apps.authentications.service import get_user_from_refresh_token
-from apps.authentications.serializers import ResetPasswordSerializer, RegisterSerializer, VerifyCodeSerializer, LoginSerializer, ForgetPasswordSerializer
+from apps.authentications.serializer import ResetPasswordSerializer, RegisterSerializer, VerifyCodeSerializer, LoginSerializer, ForgetPasswordSerializer
 
 class RegisterAPIView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
