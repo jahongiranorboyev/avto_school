@@ -7,194 +7,101 @@
     <script src="https://accounts.google.com/gsi/client" async defer></script>
     <style>
         body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f8f9fa;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            color: #333;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
         }
         .login-container {
-            background: white;
-            padding: 2rem;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 100%;
-            max-width: 450px;
-            text-align: center;
-        }
-        h1 {
-            margin-bottom: 1.5rem;
-            color: #2c3e50;
-        }
-        #google-signin-button {
-            margin: 1.5rem auto;
-            display: inline-block;
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         #status-message {
-            margin-top: 1.5rem;
-            padding: 0.75rem;
-            border-radius: 5px;
-            display: none;
-            font-size: 0.9rem;
-        }
-        .success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-        .error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(0,0,0,.3);
-            border-radius: 50%;
-            border-top-color: #3498db;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+            margin-top: 20px;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
+
     <div class="login-container">
         <h1>Tizimga Kirish</h1>
         <p>Google hisobingiz bilan tizimga kiring</p>
 
         <div id="google-signin-button"></div>
-
         <div id="status-message"></div>
-
-        <script>
-            // Google Client ID - o'zgartiring
-            const GOOGLE_CLIENT_ID = process.env.SOCIAL_AUTH_GOOGLE_OAUTH2_KEY;
-            const BACKEND_API_URL = "http://localhost:8000/api/v1/auth/google/";
-
-            // Elementlar
-            const statusElement = document.getElementById('status-message');
-            let isLoading = false;
-
-            // Status xabarini ko'rsatish
-            function showStatus(message, isSuccess = false) {
-                statusElement.textContent = message;
-                statusElement.className = isSuccess ? 'success' : 'error';
-                statusElement.style.display = 'block';
-            }
-
-            // Yuklanish animatsiyasi
-            function setLoading(state) {
-                isLoading = state;
-                const button = document.querySelector('#google-signin-button div');
-                if (button) {
-                    if (state) {
-                        button.style.opacity = '0.5';
-                        button.style.pointerEvents = 'none';
-                    } else {
-                        button.style.opacity = '1';
-                        button.style.pointerEvents = 'auto';
-                    }
-                }
-            }
-
-            // Google Sign-In ni ishga tushirish
-            function initializeGoogleSignIn() {
-                try {
-                    google.accounts.id.initialize({
-                        client_id: GOOGLE_CLIENT_ID,
-                        callback: handleCredentialResponse,
-                        auto_select: false,
-                        ux_mode: 'popup'
-                    });
-
-                    google.accounts.id.renderButton(
-                        document.getElementById("google-signin-button"),
-                        {
-                            theme: "outline",
-                            size: "large",
-                            width: 250,
-                            text: "continue_with",
-                            shape: "rectangular"
-                        }
-                    );
-
-                    // One Tap login (ixtiyoriy)
-                    google.accounts.id.prompt(notification => {
-                        if (notification.isNotDisplayed() || notification.isSkipped()) {
-                            console.log("One Tap prompt skipped");
-                        }
-                    });
-
-                } catch (error) {
-                    console.error("Google Sign-In initialization error:", error);
-                    showStatus("Google Sign-In ishga tushirishda xato", false);
-                }
-            }
-
-            // Google javobini qayta ishlash
-            async function handleCredentialResponse(response) {
-                try {
-                    setLoading(true);
-                    showStatus("Tizimga kirilmoqda... <span class='loading'></span>", true);
-
-                    console.log("Google Javobi:", response);
-
-                    // Backendga so'rov yuborish
-                    const fetchResponse = await fetch(BACKEND_API_URL, {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "Accept": "application/json"
-                        },
-                        body: JSON.stringify({
-                            id_token: response.credential,
-                            platform: "web"
-                        })
-                    });
-
-                    if (!fetchResponse.ok) {
-                        const errorData = await fetchResponse.json();
-                        throw new Error(errorData.message || `HTTP xatosi! Status: ${fetchResponse.status}`);
-                    }
-
-                    const data = await fetchResponse.json();
-                    console.log("Muvaffaqiyatli javob:", data);
-
-                    showStatus("Muvaffaqiyatli kirish! Yo'naltirilmoqdasiz...", true);
-
-                    // 2 soniyadan keyin yo'naltirish
-                    setTimeout(() => {
-                        window.location.href = data.redirect_url || "/dashboard/";
-                    }, 2000);
-
-                } catch (error) {
-                    console.error("Xato:", error);
-                    showStatus(`Xato: ${error.message}`, false);
-                } finally {
-                    setLoading(false);
-                }
-            }
-
-            // Sahifa yuklanganda Google Sign-In ni ishga tushirish
-            window.addEventListener('load', () => {
-                // Google skript yuklanganligini tekshirish
-                if (window.google && google.accounts) {
-                    initializeGoogleSignIn();
-                } else {
-                    console.error("Google skripti yuklanmadi");
-                    showStatus("Google Sign-In yuklanmadi. Sahifani yangilang.", false);
-                }
-            });
-        </script>
     </div>
+
+    <script>
+        const GOOGLE_CLIENT_ID = "280381859693-osb8uc8rjp4cs844euioc88d3f0f22v6.apps.googleusercontent.com";
+        const BACKEND_API_URL = "http://localhost:8000/api/v1/auth/google/";
+
+        const statusElement = document.getElementById('status-message');
+
+        function showStatus(message, isSuccess = false) {
+            statusElement.innerHTML = message;
+            statusElement.style.color = isSuccess ? 'green' : 'red';
+            statusElement.style.display = 'block';
+        }
+
+        function initializeGoogleSignIn() {
+            google.accounts.id.initialize({
+                client_id: GOOGLE_CLIENT_ID,
+                callback: handleCredentialResponse,
+                ux_mode: "popup"
+            });
+
+            google.accounts.id.renderButton(
+                document.getElementById("google-signin-button"),
+                { theme: "outline", size: "large" }
+            );
+        }
+
+        async function handleCredentialResponse(response) {
+            console.log("Google token olindi:", response);
+
+            if (!response.credential) {
+                showStatus("Google tokeni olinmadi!", false);
+                return;
+            }
+
+            console.log("Yuborilayotgan token:", response.credential);
+
+            showStatus("Tizimga kirilmoqda...", true);
+
+            try {
+                const res = await fetch(BACKEND_API_URL, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id_token: response.credential })
+                });
+
+                console.log("Backendga yuborildi. Javob kutilmoqda...");
+
+                if (!res.ok) {
+                    throw new Error(`Server xatosi: ${res.status}`);
+                }
+
+                const data = await res.json();
+                console.log("Backend javobi:", data);
+
+                if (data.token) {
+                    showStatus("Muvaffaqiyatli tizimga kirdingiz!", true);
+                    window.location.href = "/dashboard/";
+                } else {
+                    showStatus("Xato: Token olinmadi!", false);
+                }
+            } catch (error) {
+                console.error("Xatolik:", error);
+                showStatus(`Xatolik: ${error.message}`, false);
+            }
+        }
+
+        window.onload = initializeGoogleSignIn;
+    </script>
+
 </body>
 </html>
