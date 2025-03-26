@@ -56,7 +56,7 @@ PAYME_CASH_BOX_ID = os.environ.get("PAYME_CASH_BOX_ID")
 PAYME_CASH_BOX_TEST_KEY = os.environ.get("PAYME_CASH_BOX_TEST_KEY")
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://590c-188-113-238-102.ngrok-free.app',
+    'https://fcf4-94-158-57-109.ngrok-free.app',
     'http://127.0.0.1:8000',
 ]
 
@@ -80,10 +80,13 @@ EMAIL_HOST_PASSWORD = 'lhtt czwv kozp kcjx'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
-CSP_DEFAULT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com")
-CSP_SCRIPT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com", "'unsafe-inline'", "'unsafe-eval'")
 
 CSP_DEFAULT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com")
 CSP_SCRIPT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com", "'unsafe-inline'", "'unsafe-eval'")
