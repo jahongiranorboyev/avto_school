@@ -74,6 +74,9 @@ EMAIL_HOST_USER = 'hikmatovsanjar885@gmail.com'
 EMAIL_HOST_PASSWORD = 'lhtt czwv kozp kcjx'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 
 
