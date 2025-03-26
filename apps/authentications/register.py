@@ -2,7 +2,7 @@ import os
 from django.contrib.auth import authenticate
 from rest_framework.exceptions import AuthenticationFailed
 from apps.users.models import CustomUser
-from django.conf import settings
+
 
 
 
@@ -13,7 +13,7 @@ def register_social_user(provider, user_id, email, full_name, user_code):
         existing_user = filtered_user_by_email[0].first
         if provider == existing_user.auth_proveder:
             registered_user = authenticate(
-                email=email, password = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+                email=email, password = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
             )
 
             return {
@@ -30,7 +30,7 @@ def register_social_user(provider, user_id, email, full_name, user_code):
         if provider == 'telegram':
             user = {
                 'email': email,
-                'password': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+                'password': os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'),
                 'full_name': full_name
             }
 
@@ -38,7 +38,7 @@ def register_social_user(provider, user_id, email, full_name, user_code):
             user.auth_provider = provider
             user.save()
             new_user = authenticate(
-                email=email, password=settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET)
+                email=email, password=os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'))
 
             return {
                 'tokens': new_user.tokens(),
@@ -46,7 +46,7 @@ def register_social_user(provider, user_id, email, full_name, user_code):
 
         user = {
             'email': email,
-            'password': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+            'password': os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'),
             'full_name': full_name
         }
 
@@ -54,7 +54,7 @@ def register_social_user(provider, user_id, email, full_name, user_code):
         user.auth_provider = provider
         user.save()
         new_user = authenticate(
-            email=email, password=settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET)
+            email=email, password=os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET'))
 
         return {
             'tokens': new_user.tokens(),
