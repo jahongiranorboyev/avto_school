@@ -78,31 +78,6 @@ class CustomUser(BaseModel, AbstractUser):
         if len_full_name != 2:
             raise ValueError({'error': 'Full name should be like this Jon Dou'})
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        if self.pk:
-            self.update_level()
-
-
-    def update_level(self):
-        if self.level is not None:
-            """
-                Foydalanuvchi coins asosida darajasini yangilaydi.
-            """
-
-            min_level = Level.objects.all().order_by('coins').first()
-            max_level = Level.objects.all().order_by('coins').last()
-            if min_level and max_level is not None:
-                if self.coins < max_level.coins:
-                    if self.coins >= min_level.coins:
-                        users_level_coins = Level.objects.all().order_by('-coins')
-                        for index, level_data in enumerate(users_level_coins):
-                            if self.coins >= level_data.coins:
-                                if index <= len(users_level_coins):
-                                    next_level = users_level_coins[index - 1]
-                                    self.level = next_level
-                                    return self.level
-
 
     def _make_first_and_last_name(self):
         name = self.full_name.strip().split()

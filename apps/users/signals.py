@@ -2,6 +2,7 @@ from django.db.models import Sum, F, Count
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
+from apps.general.models import Level
 from apps.quizzes.models import QuizResult, Question
 from apps.users.models import CustomUser
 
@@ -45,8 +46,31 @@ def update_users_correct_answer(sender, instance, **kwargs):
         user__id=user.pk).aggregate(
         total_answer=Sum('correct_answers'))['total_answer'] or 0
     user.correct_answers = total_correct_answers
+    user.save(update_fields=['correct_answers'])
 
-
-# @receiver(post_save, sender=CustomUser)
-# def update_user_level(sender, instance, **kwargs):
-#
+@receiver(post_save, sender=CustomUser)
+def update_user_level(sender, instance, **kwargs):
+        """
+            Foydalanuvchi coins asosida darajasini yangilaydi.
+        """
+        levels = Level.objects.all().order_by('-coins')
+        print(levels)
+        if not levels:
+            instance.level = 0
+            instance.save(update_fields=['level'])
+            print(instance.level)
+        else:
+            min_level = Level.objects.all().order_by('coins').first()
+            max_level = Level.objects.all().order_by('coins').last()
+            print(max_level)
+            print(min_level)
+            if instance.coins < max_level.coins:
+                if instance.coins >= min_level.coins:
+                    for index, level_data in enumerate(levels):
+                        if instance.coins >= level_data.coins:
+                            if index >= 0:
+                                next_level = levels[index - 1]
+                                instance.level = next_level
+                                instance.save(update_fields=['level'])
+                        else:
+                            instance.level = levels[index]
