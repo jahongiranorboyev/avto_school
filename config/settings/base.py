@@ -55,11 +55,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 PAYME_CASH_BOX_ID = os.environ.get("PAYME_CASH_BOX_ID")
 PAYME_CASH_BOX_TEST_KEY = os.environ.get("PAYME_CASH_BOX_TEST_KEY")
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://590c-188-113-238-102.ngrok-free.app',
-    'http://127.0.0.1:8000',
-]
-
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -76,17 +71,8 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'hikmatovsanjar885@gmail.com'
-EMAIL_HOST_PASSWORD = 'lhtt czwv kozp kcjx'
+EMAIL_HOST_PASSWORD = 'dvcm barq xcjz kccz'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
-
-INTERNAL_IPS = [
-    "127.0.0.1",
-]
-
-
-CSP_DEFAULT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com")
-CSP_SCRIPT_SRC = ("'self'", "https://accounts.google.com", "https://ssl.gstatic.com", "'unsafe-inline'", "'unsafe-eval'")
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')

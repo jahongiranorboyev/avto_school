@@ -1,15 +1,15 @@
-from django.utils import cache
-from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
+from django.core.cache import cache
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 
 from rest_framework.response import Response
 from rest_framework import generics, status
 
+from apps.users.models import CustomUser
 from apps.authentications.serializers.verify_code_serializers import (
     RegisterVerifyCodeSerializer, ForgetPasswordVerifyCodeSerializer)
-from apps.users.models import CustomUser
 
 
 class RegisterVerifyCodeAPIView(generics.GenericAPIView):
@@ -43,8 +43,7 @@ class ForgetPasswordVerifyCodeAPIView(generics.GenericAPIView):
                 kwargs={'encoded_pk': encoded_pk, 'token': token}
             )
 
-            reset_url = f"localhost:8000{reset_url}"
-            return Response({'message': f'Your password reset url: {reset_url}'}, status=status.HTTP_200_OK)
+            reset_url = f"http://127.0.0.1:8000{reset_url}"
+            return Response({f'{reset_url}'}, status=status.HTTP_200_OK)
         else:
             return Response({'message': 'User does not exists'}, status=status.HTTP_400_BAD_REQUEST, )
-
