@@ -1,5 +1,8 @@
 from django.shortcuts import render
 
+<<<<<<< HEAD
+# Create your views here.
+=======
 
 class GetDeviceAPIView(APIView):
     def post():
@@ -20,4 +23,4 @@ class UserAllNotification(APIView):
         return Response("result": {
             'notifications': serializer.data
         })
-
+>>>>>>> 21f3bc8 (good)
