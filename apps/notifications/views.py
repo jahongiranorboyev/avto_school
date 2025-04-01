@@ -1,8 +1,6 @@
 from django.shortcuts import render
 
-<<<<<<< HEAD
-# Create your views here.
-=======
+
 
 class GetDeviceAPIView(APIView):
     def post():
@@ -23,4 +21,21 @@ class UserAllNotification(APIView):
         return Response("result": {
             'notifications': serializer.data
         })
->>>>>>> 21f3bc8 (good)
+
+class system_notification(serializer):
+    class Meta:
+        models = SystemNotification
+        fields = "__all__"
+
+class CustomNotificationserializer(serializer):
+    class Meta:
+        models = CustomNotification
+        fields = "__all__"
+
+class UserNotificationSerializer(serializer):
+    custom_notification = CustomNotificationserializer(read_only=True)
+    system_notification = system_notification(read_only=True)
+    class Meta:
+        models = UserNotification
+        fields = ['custom_notification', 'system_notification']
+    
