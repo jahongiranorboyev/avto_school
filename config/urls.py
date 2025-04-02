@@ -3,6 +3,7 @@ from django.urls import path, include, re_path
 
 from .swagger import schema_view
 
+
 urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='redoc'),
