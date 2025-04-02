@@ -5,13 +5,13 @@ from apps.users.models import CustomUser
 
 @admin.register(CustomUser)
 class CustomUserAdmin(UserAdmin):
-    readonly_fields = ("last_login", "date_joined", "balance", "coins", "user_code",)
+    readonly_fields = ("correct_answers","last_10_quiz_results_avg","last_login", "date_joined", "balance", "user_code",'auth_provider',)
 
     fieldsets = (
         (None, {"fields": ("email", "password")}),
         (
             _("Personal info"),
-            {"fields": ("full_name",)},
+            {"fields": ("full_name","level","coins",)},
         ),
         (
             _("Permissions"),
@@ -19,7 +19,7 @@ class CustomUserAdmin(UserAdmin):
                 "fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions"),
             },
         ),
-        (_("Important dates"), {"fields": ("last_login", "date_joined","balance", "coins", "user_code",)}),
+        (_("Important dates"), {"fields": ("correct_answers", "last_10_quiz_results_avg", "last_login", "date_joined","balance", "user_code",'auth_provider')}),
     )
 
     add_fieldsets = (
@@ -27,7 +27,7 @@ class CustomUserAdmin(UserAdmin):
             None,
             {
                 "classes": ("wide",),
-                "fields": ("email", "password1", "password2"),
+                "fields": ("email", "password1", "password2", "full_name",),
             },
         ),
     )
@@ -35,3 +35,5 @@ class CustomUserAdmin(UserAdmin):
     list_display = ("email", "full_name", "is_staff",)
     search_fields = ("email", "full_name")
     ordering = ("email",)
+
+
