@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from rest_framework import generics
 
-# Create your views here.
+from apps.roadsigns.models import RoadSign
+from apps.roadsigns.serializers import RoadSignSerializer
+
+
+class RoadSignListAPIView(generics.ListAPIView):
+    queryset = RoadSign.objects.all()
+    serializer_class = RoadSignSerializer
+
