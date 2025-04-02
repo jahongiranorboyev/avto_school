@@ -21,7 +21,7 @@ class UserChapter(BaseModel):
     """ This model represents how many lessons of chapter finished by user."""
 
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    chapter = models.ForeignKey('lessons.models.Chapter', on_delete=models.PROTECT)
+    chapter = models.ForeignKey('lessons.Chapter', on_delete=models.PROTECT)
     completed_lessons = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
