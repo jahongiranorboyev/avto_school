@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
-from .swagger import schema_view
 
+from .swagger import schema_view
 
 urlpatterns = [
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='swagger-ui'),
