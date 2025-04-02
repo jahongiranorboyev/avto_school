@@ -13,15 +13,6 @@ urlpatterns = [
     path('api/v1/payment/', include('apps.payments.urls')),
     path('api/v1/auth/', include('apps.authentications.urls')),
     path('api/v1/user-list/', include('apps.users.urls')),
-    path('api/v1/', include('apps.lessons.urls')),
-    path('api/v1/', include('apps.phrases.urls'))
-    path('api/v1/user-list/', include('apps.users.urls')),
-    path('api/v1/general/', include('apps.general.urls')),
-    path('ap1/v1/roadsigns/',include('apps.roadsigns.urls')),
-    path('api/v1/user-list/', include('apps.users.urls')),
-    path('api/v1/', include('apps.lessons.urls')),
-    path('api/v1/', include('apps.phrases.urls'))
-    path('api/v1/user-list/', include('apps.users.urls')),
     path('api/v1/general/', include('apps.general.urls')),
     path('ap1/v1/roadsigns/',include('apps.roadsigns.urls')),
     ]
