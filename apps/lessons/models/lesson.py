@@ -31,7 +31,7 @@ class LessonResource(BaseModel):
 class LessonTerm(BaseModel):
     name = models.CharField(max_length=100)
     description = models.TextField(null=True, blank=True)
-    lesson = models.ForeignKey('lessons.models.Lesson', on_delete=models.PROTECT)
+    lesson = models.ForeignKey('lessons.Lesson', on_delete=models.PROTECT)
 
     def __str__(self):
         return self.name
@@ -39,7 +39,7 @@ class LessonTerm(BaseModel):
 
 class UserLesson(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    lesson = models.ForeignKey('lessons.models.Lesson', on_delete=models.PROTECT)
+    lesson = models.ForeignKey('lessons.Lesson', on_delete=models.PROTECT)
     completed_at = models.DateTimeField(null=True, blank=True)
     rating = models.PositiveSmallIntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(5)])
 
