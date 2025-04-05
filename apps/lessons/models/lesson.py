@@ -44,4 +44,4 @@ class UserLesson(BaseModel):
     rating = models.PositiveSmallIntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(5)])
 
     def __str__(self):
-        return self.user.id
+        return str(self.user.id)
