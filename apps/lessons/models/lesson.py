@@ -13,7 +13,7 @@ class Lesson(BaseModel):
     description = models.TextField(null=True, blank=True)
     is_premium = models.BooleanField(default=False)
     duration = models.PositiveSmallIntegerField(default=0)
-    chapter = models.ForeignKey('lessons.models.Chapter', on_delete=models.PROTECT)
+    chapter = models.ForeignKey('lessons.Chapter', on_delete=models.PROTECT)
 
     def __str__(self):
         return self.title
@@ -22,7 +22,7 @@ class Lesson(BaseModel):
 class LessonResource(BaseModel):
     title = models.CharField(max_length=100)
     url = models.URLField(null=True, blank=True)
-    lesson = models.ForeignKey('lessons.models.Lesson', on_delete=models.PROTECT)
+    lesson = models.ForeignKey('lessons.Lesson', on_delete=models.PROTECT)
 
     def __str__(self):
         return self.title
