@@ -78,8 +78,9 @@ class CustomUser(BaseModel, AbstractUser):
 
     def _make_first_and_last_name(self):
         name = self.full_name.strip().split()
-        self.first_name = name[0]
-        self.last_name = name[1] if len(name) < 2 else 0
+        if len(name) > 2:
+            self.first_name = name[0]
+            self.last_name = name[1] if len(name) < 2 else 0
 
     def save(self, *args, **kwargs):
         self._make_first_and_last_name()
@@ -104,5 +105,22 @@ class CustomUser(BaseModel, AbstractUser):
             'access': str(refresh.access_token)
         }
 
+
+
+
+class Support(BaseModel):
+    class Report(models.TextChoices):
+        APP_USE = 'app_use', 'Basic app usage and feature'
+        ACCOUNT = 'account', 'Login and account settings.'
+        PAYMENT = 'payment', 'Subscription & payment'
+        STUDY_CONTENT = 'study_content', 'About learning materials'
+        APP_ISSUES = 'app_issues', 'Report bugs or problems'
+        OTHER = 'other', 'For any other queries'
+
+
+    icon = models.ImageField()
+    email = models.EmailField()
+    report = models.CharField(max_length=100, default=Report.OTHER)
+    description = models.CharField(max_length=150, blank=True, null=True)
 
 

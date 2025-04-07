@@ -52,8 +52,10 @@ class ForgetPasswordVerifyCodeSerializer(serializers.Serializer):
     def validate(self, attrs):
         code = attrs['code']
         email = cache.get(f'user_email_{code}')
-        saved_code = cache.get(f'user_code_{email}')
+        print(email,'kkkkkkkkkkkkkkkkkkkk')
 
+        saved_code = cache.get(f'user_code_{email}')
+        print(saved_code, 'sssssssssssssssssssssssss')
         if not saved_code or str(code) != str(saved_code):
             raise serializers.ValidationError({'error': 'The code is wrong or time is out'})
         return attrs

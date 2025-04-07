@@ -7,18 +7,6 @@ from apps.quizzes.models import QuizResult, Question
 from apps.users.models import CustomUser
 
 
-#
-# @receiver(post_save, sender=QuizResult)
-# def update_users_correct_answers(sender, instance, created, **kwargs):
-#
-#     user = instance.user
-#
-#
-#     if user:
-#         total_correct_answers = QuizResult.objects.filter(user=user).aggregate(total_answere=Sum('correct_answers'))['total_answere'] or 0
-#         user.correct_answers = total_correct_answers
-#         user.save(update_fields=['correct_answers'])
-
 
 @receiver(post_save, sender=QuizResult)
 def update_last_10_quiz_result(sender, instance, **kwargs):
@@ -56,9 +44,9 @@ def update_user_level(sender, instance, **kwargs):
         min_level = Level.objects.all().order_by('coins').first()
         max_level = Level.objects.all().order_by('coins').last()
         levels = Level.objects.all().order_by('-coins')
-        if not levels.exists():
+        if not levels.exists() and instance.level:
             if min_level:
-                instance.level = 'aandcjbn'
+                instance.level = min_level
                 instance.save(update_fields=['level'])
         else:
             if instance.coins < max_level.coins:
@@ -71,3 +59,5 @@ def update_user_level(sender, instance, **kwargs):
                                 instance.save(update_fields=['level'])
                         else:
                             instance.level = levels[index]
+
+
