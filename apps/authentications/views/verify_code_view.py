@@ -1,4 +1,4 @@
-from django.utils import cache
+from django.core.cache import cache
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.urls import reverse
 from django.utils.encoding import force_bytes
@@ -20,8 +20,6 @@ class RegisterVerifyCodeAPIView(generics.GenericAPIView):
         serializer.save()
         data = {'message': 'User registered successfully'}
         return Response(data=data, status=status.HTTP_201_CREATED)
-
-
 
 
 class ForgetPasswordVerifyCodeAPIView(generics.GenericAPIView):

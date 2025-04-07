@@ -23,7 +23,7 @@ class LoginSerializer(serializers.Serializer):
         if not user.check_password(password):
             raise serializers.ValidationError({"error": "Email yoki parol noto‘g‘ri"})
 
-        if filter_user_by_email[0].auth_provider != 'email':
+        if filter_user_by_email.auth_provider != 'email':
             raise AuthenticationFailed(
                 detail='Please continue your login using' + filter_user_by_email[0].auth_provider
             )

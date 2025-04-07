@@ -9,8 +9,8 @@ class Email:
     @staticmethod
     def send_massage(email):
 
-        code = random.randint(000000, 999999)
-
+        # code = random.randint(000000, 999999)
+        code = 123456
         cache.set(f'user_code_{email}', code, timeout=2 * 60)
         cache.set(f'user_email_{code}', email, timeout=2 * 60)
 

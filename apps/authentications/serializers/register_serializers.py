@@ -22,6 +22,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             "email": email,
             "password": password,
             "full_name": full_name
-        }, timeout=2 * 60)
+        }, timeout=1 * 60)
         return attrs
 

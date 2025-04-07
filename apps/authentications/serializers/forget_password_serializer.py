@@ -13,4 +13,5 @@ class ForgetPasswordSerializer(serializers.Serializer):
         user = CustomUser.objects.filter(email=email)
         if not user:
             raise serializers.ValidationError({'error': 'The user we can not find try again please or remind clearly'})
+        attrs['email'] = email
         return attrs

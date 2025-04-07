@@ -9,7 +9,7 @@ class Lesson(BaseModel):
 
     title = models.CharField(max_length=100)
     video = models.FileField(upload_to='lessons/video/%Y/%m/%d', null=True, blank=True,
-                             validators=[FileExtensionValidator(['mp4'])])
+                             validators=[FileExtensionValidator(['mp4', 'pptx'])])
     description = models.TextField(null=True, blank=True)
     is_premium = models.BooleanField(default=False)
     duration = models.PositiveSmallIntegerField(default=0)

@@ -10,7 +10,7 @@ class ForgetPasswordAPIView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        email = request.POST.get('email')
+        email = serializer.validated_data.get('email')
         email_service.send_massage(email)
         data = 'We send your code to your email'
         return Response(data, status=status.HTTP_200_OK)
