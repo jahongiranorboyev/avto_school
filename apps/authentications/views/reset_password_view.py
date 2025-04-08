@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework import generics, status
-from apps.authentications.serializers.reset_password_serializer import ResetPasswordSerializer
+from apps.authentications.serializers import ResetPasswordSerializer
 
 
 class ResetPasswordAPIView(generics.GenericAPIView):

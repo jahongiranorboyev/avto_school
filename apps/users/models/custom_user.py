@@ -78,8 +78,9 @@ class CustomUser(BaseModel, AbstractUser):
 
     def _make_first_and_last_name(self):
         name = self.full_name.strip().split()
-        self.first_name = name[0]
-        self.last_name = name[1] if len(name) < 2 else 0
+        if len(name) > 2:
+            self.first_name = name[0]
+            self.last_name = name[1] if len(name) < 2 else 0
 
     def save(self, *args, **kwargs):
         self._make_first_and_last_name()

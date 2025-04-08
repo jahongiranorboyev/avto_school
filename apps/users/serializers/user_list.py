@@ -1,16 +1,20 @@
 from rest_framework import serializers
 
 from apps.general.models import Level
+from apps.general.serializers.level import LevelSerializer
 from apps.users.models import CustomUser
 
-class LevelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Level
-        fields = '__all__'
+
+
 
 
 class UserListSerializer(serializers.ModelSerializer):
     level = LevelSerializer()
+    total_questions = serializers.SerializerMethodField()
+
+
+    def get_total_questions(self, obj):
+        return self.context.get('total_questions', 0)
 
     class Meta:
         model = CustomUser
@@ -41,9 +45,3 @@ class UserListSerializer(serializers.ModelSerializer):
         return data
 
 
-class UserQuizzesDashboardSerializer(UserListSerializer):
-    total_questions = serializers.SerializerMethodField()
-
-    class Meta:
-        model =CustomUser
-        fields = '__all__'
