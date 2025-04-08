@@ -6,7 +6,7 @@
 
 from rest_framework.response import Response
 from rest_framework import generics,status
-from apps.authentications.serializers.base_serializer import GoogleSocialAuthSerializer
+from apps.authentications.serializers import GoogleSocialAuthSerializer
 
 
 #

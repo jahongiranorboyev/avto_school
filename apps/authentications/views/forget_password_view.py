@@ -1,5 +1,5 @@
 
-from apps.authentications.serializers.forget_password_serializer import ForgetPasswordSerializer
+from apps.authentications.serializers import ForgetPasswordSerializer
 from apps.authentications.email import email_service
 from rest_framework import generics, status
 from rest_framework.response import Response
