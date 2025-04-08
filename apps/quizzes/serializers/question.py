@@ -1,18 +1,14 @@
 from rest_framework import serializers
+from apps.quizzes.models import Question, QuestionVariant
 
-from apps.quizzes.models import QuestionCategory, UserQuestionCategory
-
-
-class QuestionCategoryListSerializer(serializers.ModelSerializer):
-    avg_result=serializers.SerializerMethodField(read_only=True)
+class QuestionVariantSerializer(serializers.ModelSerializer):
     class Meta:
-        model = QuestionCategory
-        fields = '__all__'
+        model = QuestionVariant
+        fields = ['id', 'title', 'is_correct']
 
-    def get_avg_result(self,obj: QuestionCategory):
-        # user = self.context['request'].user
-        # user_question, _ = UserQuestionCategory.objects.get(user=user, question_category_id=obj.id)
-        return 65
+class QuestionListSerializer(serializers.ModelSerializer):
+    variants = QuestionVariantSerializer(many=True, read_only=True)
 
-
-
+    class Meta:
+        model = Question
+        fields = ['id', 'title', 'description', 'mode', 'video', 'image', 'question_category', 'lesson', 'variants']
