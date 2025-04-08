@@ -1,5 +1,3 @@
-
-
 from tokenize import TokenError
 
 from apps.users.models import CustomUser

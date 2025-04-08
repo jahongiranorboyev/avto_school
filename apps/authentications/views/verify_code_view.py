@@ -7,7 +7,7 @@ from django.utils.http import urlsafe_base64_encode
 from rest_framework.response import Response
 from rest_framework import generics, status
 
-from apps.authentications.serializers.verify_code_serializers import (
+from apps.authentications.serializers import (
     RegisterVerifyCodeSerializer, ForgetPasswordVerifyCodeSerializer)
 from apps.users.models import CustomUser
 

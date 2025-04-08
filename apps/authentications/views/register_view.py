@@ -1,7 +1,9 @@
 from rest_framework.response import Response
 from rest_framework import generics, status
-from apps.authentications.serializers.register_serializers import RegisterSerializer
+from apps.authentications.serializers import RegisterSerializer
 from django.db import transaction
+
+
 class RegisterAPIView(generics.GenericAPIView):
     serializer_class = RegisterSerializer
     @transaction.atomic()
