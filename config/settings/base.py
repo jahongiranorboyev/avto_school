@@ -52,5 +52,5 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SEC
 
 
 CORS_ALLOWED_ORIGINS = [
-    'https://f51f-90-156-198-203.ngrok-free.app'
+    'https://5e69-90-156-198-203.ngrok-free.app'
 ]
