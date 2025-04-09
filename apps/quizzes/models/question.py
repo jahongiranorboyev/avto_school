@@ -41,7 +41,7 @@ class Question(BaseModel):
 
     question_category = models.ForeignKey(
         'quizzes.QuestionCategory',
-        on_delete=models.PROTECT,
+        on_delete=models.PROTECT
     )
     lesson = models.ForeignKey(
         'lessons.Lesson',
@@ -49,6 +49,7 @@ class Question(BaseModel):
         blank=True,
         null=True
     )
+
 
     def __str__(self):
         return self.title
@@ -61,9 +62,10 @@ class QuestionVariant(BaseModel):
     )
     question = models.ForeignKey(
         'quizzes.Question',
-        on_delete=models.PROTECT
+        on_delete=models.PROTECT,
+        related_name='variants',
     )
-
+        
     def clean(self):
         if self.is_correct:
             existing_correct = QuestionVariant.objects.filter(

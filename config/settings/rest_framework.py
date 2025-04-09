@@ -24,7 +24,11 @@ REST_FRAMEWORK= {
 
     # Generic view behavior
     'DEFAULT_PAGINATION_CLASS': None,
-    'DEFAULT_FILTER_BACKENDS': [],
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
 
     # Schema
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.openapi.AutoSchema',
