@@ -10,7 +10,6 @@ from rest_framework_simplejwt.exceptions import AuthenticationFailed
 
 
 from apps.authentications import google
-from apps.users.serializers import LevelSerializer
 from apps.authentications.register import register_social_user
 
 
