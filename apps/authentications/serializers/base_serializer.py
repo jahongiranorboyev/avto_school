@@ -1,4 +1,3 @@
-import os
 import random
 import string
 import time
@@ -10,7 +9,7 @@ from rest_framework_simplejwt.exceptions import AuthenticationFailed
 
 
 from apps.authentications import google
-from apps.authentications.register import register_social_user
+from apps.authentications.social_register.register import register_social_user
 
 
 def generate_reset_code():

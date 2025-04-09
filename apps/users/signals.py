@@ -36,28 +36,65 @@ def update_users_correct_answer(sender, instance, **kwargs):
     user.correct_answers = total_correct_answers
     user.save(update_fields=['correct_answers'])
 
-# @receiver(post_save, sender=CustomUser)
+#
+# @receiver(post_save)
 # def update_user_level(sender, instance, **kwargs):
-#         """
-#             Foydalanuvchi coins asosida darajasini yangilaydi.
-#         """
-#         min_level = Level.objects.all().order_by('coins').first()
-#         max_level = Level.objects.all().order_by('coins').last()
-#         levels = Level.objects.all().order_by('-coins')
-#         if not levels.exists() and instance.level:
-#             if min_level:
-#                 instance.level = min_level
-#                 instance.save(update_fields=['level'])
-#         else:
-#             if instance.coins < max_level.coins:
-#                 if instance.coins >= min_level.coins:
-#                     for index, level_data in enumerate(levels):
-#                         if instance.coins >= level_data.coins:
-#                             if index >= 0:
-#                                 next_level = levels[index - 1]
-#                                 instance.level = next_level
-#                                 instance.save(update_fields=['level'])
-#                         else:
-#                             instance.level = levels[index]
+#     if isinstance(instance, CustomUser):
+#         levels = Level.objects.order_by('coins')
+#         if not levels.exists():
+#             return
+#
+#         for level in levels:
+#             if instance.coins < level.coins:
+#                 break
+#             instance.level = level
+#
+#         instance.save(update_fields=['level'])
+#
+#     elif isinstance(instance, Level):
+#         levels = Level.objects.order_by('coins')
+#         users = CustomUser.objects.all()
+#
+#         for user in users:
+#             for level in levels:
+#                 if user.coins < level.coins:
+#                     break
+#                 user.level = level
+#             user.save(update_fields=['level'])
+#
 
 
+@receiver(post_save, dispatch_uid="update_user_level")
+def update_user_level(sender, instance, **kwargs):
+    if isinstance(instance, CustomUser):
+        post_save.disconnect(update_user_level, sender=CustomUser)
+
+        try:
+            levels = Level.objects.order_by('coins')
+            if not levels.exists():
+                return
+
+            for level in levels:
+                if instance.coins < level.coins:
+                    break
+                instance.level = level
+
+            CustomUser.objects.filter(pk=instance.pk).update(level=instance.level)
+        finally:
+            post_save.connect(update_user_level, sender=CustomUser, dispatch_uid="update_user_level")
+
+    elif isinstance(instance, Level):
+        post_save.disconnect(update_user_level, sender=Level)
+
+        try:
+            levels = Level.objects.order_by('coins')
+            users = CustomUser.objects.all()
+
+            for user in users:
+                for level in levels:
+                    if user.coins < level.coins:
+                        break
+                    user.level = level
+                CustomUser.objects.filter(pk=user.pk).update(level=user.level)
+        finally:
+            post_save.connect(update_user_level, sender=Level, dispatch_uid="update_user_level")

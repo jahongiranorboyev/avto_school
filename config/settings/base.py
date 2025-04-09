@@ -76,5 +76,5 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 CORS_ALLOWED_ORIGINS = [
-    'https://f51f-90-156-198-203.ngrok-free.app'
+    'https://5e69-90-156-198-203.ngrok-free.app'
 ]
