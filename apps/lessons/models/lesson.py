@@ -13,7 +13,7 @@ class Lesson(BaseModel):
     description = models.TextField(null=True, blank=True)
     is_premium = models.BooleanField(default=False)
     duration = models.PositiveSmallIntegerField(default=0)
-    chapter = models.ForeignKey('lessons.Chapter', on_delete=models.PROTECT)
+    chapter = models.ForeignKey('lessons.Chapter', on_delete=models.PROTECT, related_name='lessons')
 
     def __str__(self):
         return self.title
