@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from rest_framework import serializers
 
 from apps.notifications.models import UserNotification
@@ -6,6 +7,13 @@ from apps.notifications.serializers.system_notification_serializer import system
 
 
 class UserNotificationSerializer(serializers.ModelSerializer):
+=======
+from django.rest_fremwork import ModelSerializer
+
+
+
+class UserNotificationSerializer(serializer.ModelSerializer):
+>>>>>>> 2061695 (natofications and books apps changed)
     custom_notification = CustomNotificationserializer(read_only=True)
     system_notification = system_notification(read_only=True)
     class Meta:
