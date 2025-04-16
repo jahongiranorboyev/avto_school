@@ -1,5 +1,4 @@
 from django.db import models
-from rest_framework.exceptions import ValidationError
 from django.core.validators import FileExtensionValidator
 
 from apps.utils.models import BaseModel
@@ -49,7 +48,7 @@ class Question(BaseModel):
         blank=True,
         null=True
     )
-
+    is_saved = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -62,17 +61,9 @@ class QuestionVariant(BaseModel):
     )
     question = models.ForeignKey(
         'quizzes.Question',
-        on_delete=models.PROTECT,
+        on_delete=models.CASCADE,
         related_name='variants',
     )
-        
-    def clean(self):
-        if self.is_correct:
-            existing_correct = QuestionVariant.objects.filter(
-                question=self.question, is_correct=True
-            ).exclude(id=self.id).exists()
-            if existing_correct:
-                raise ValidationError("This question already has a correct answer!")
 
     def __str__(self):
         return self.title

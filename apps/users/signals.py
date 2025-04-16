@@ -36,28 +36,28 @@ def update_users_correct_answer(sender, instance, **kwargs):
     user.correct_answers = total_correct_answers
     user.save(update_fields=['correct_answers'])
 
-@receiver(post_save, sender=CustomUser)
-def update_user_level(sender, instance, **kwargs):
-        """
-            Foydalanuvchi coins asosida darajasini yangilaydi.
-        """
-        min_level = Level.objects.all().order_by('coins').first()
-        max_level = Level.objects.all().order_by('coins').last()
-        levels = Level.objects.all().order_by('-coins')
-        if not levels.exists() and instance.level:
-            if min_level:
-                instance.level = min_level
-                instance.save(update_fields=['level'])
-        else:
-            if instance.coins < max_level.coins:
-                if instance.coins >= min_level.coins:
-                    for index, level_data in enumerate(levels):
-                        if instance.coins >= level_data.coins:
-                            if index >= 0:
-                                next_level = levels[index - 1]
-                                instance.level = next_level
-                                instance.save(update_fields=['level'])
-                        else:
-                            instance.level = levels[index]
+# @receiver(post_save, sender=CustomUser)
+# def update_user_level(sender, instance, **kwargs):
+#         """
+#             Foydalanuvchi coins asosida darajasini yangilaydi.
+#         """
+#         min_level = Level.objects.all().order_by('coins').first()
+#         max_level = Level.objects.all().order_by('coins').last()
+#         levels = Level.objects.all().order_by('-coins')
+#         if not levels.exists() and instance.level:
+#             if min_level:
+#                 instance.level = min_level
+#                 instance.save(update_fields=['level'])
+#         else:
+#             if instance.coins < max_level.coins:
+#                 if instance.coins >= min_level.coins:
+#                     for index, level_data in enumerate(levels):
+#                         if instance.coins >= level_data.coins:
+#                             if index >= 0:
+#                                 next_level = levels[index - 1]
+#                                 instance.level = next_level
+#                                 instance.save(update_fields=['level'])
+#                         else:
+#                             instance.level = levels[index]
 
 

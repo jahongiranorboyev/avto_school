@@ -7,7 +7,7 @@ from apps.quizzes.filters import UserQuestionFilter
 
 class UserQuestionView(generics.ListAPIView):
     serializer_class = UserQuestionSerializer
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
     filter_backends = [DjangoFilterBackend]
     filterset_class = UserQuestionFilter
 
