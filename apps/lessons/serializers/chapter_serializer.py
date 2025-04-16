@@ -5,13 +5,11 @@ from apps.lessons.models import Chapter
 
 
 class ChapterSerializer(serializers.ModelSerializer):
+    duration = serializers.SerializerMethodField()
+
     class Meta:
         model = Chapter
         fields = '__all__'
 
-    def validate_duration(self, value):
-        lessons = value.lessons_set.all()
-        if not lessons.exists():
-            return 0
-        total_duration = lessons.aggregate(total=Sum('duration'))
-        return total_duration or 0
+    def get_duration(self, obj):
+        return obj.lessons.aggregate(total=Sum('duration'))['total'] or 0
