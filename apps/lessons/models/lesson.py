@@ -25,7 +25,7 @@ class Lesson(BaseModel):
 
 
 class LessonResource(BaseModel):
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, verbose_name=_("Title"))
     url = models.URLField(null=True, blank=True)
     lesson = models.ForeignKey('lessons.Lesson', on_delete=models.PROTECT)
 
@@ -34,8 +34,8 @@ class LessonResource(BaseModel):
 
 
 class LessonTerm(BaseModel):
-    name = models.CharField(max_length=100)
-    description = models.TextField(null=True, blank=True)
+    name = models.CharField(max_length=100,verbose_name=_("Name"))
+    description = models.TextField(null=True, blank=True, verbose_name=_("Description"))
     lesson = models.ForeignKey('lessons.Lesson', on_delete=models.PROTECT)
 
     def __str__(self):
@@ -46,7 +46,7 @@ class UserLesson(BaseModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
     lesson = models.ForeignKey('lessons.Lesson', on_delete=models.PROTECT)
     completed_at = models.DateTimeField(null=True, blank=True)
-    rating = models.PositiveSmallIntegerField(default=0,validators=[MinValueValidator(0), MaxValueValidator(5)])
+    rating = models.PositiveSmallIntegerField(default=0, validators=[MinValueValidator(0), MaxValueValidator(5)])
 
     def __str__(self):
         return str(self.user.id)
