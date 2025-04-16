@@ -27,27 +27,23 @@ class QuestionVariantInlineFormset(BaseInlineFormSet):
 class QuestionVariantInline(admin.TabularInline):
     model = QuestionVariant
     extra = 1
-    formset = QuestionVariantInlineFormset
 
 
-class QuestionAdmin(TranslationAdmin):
+class QuestionAdmin(admin.ModelAdmin):
     list_display = ('title', 'mode', 'question_category', 'lesson', 'get_variants')
     search_fields = ('title', 'description')
     list_filter = ('mode', 'question_category', 'lesson')
-    readonly_fields = ('is_saved',)
-    inlines = [QuestionVariantInline]
 
     def get_variants(self, obj):
         return ", ".join([variant.title for variant in obj.variants.all()])
 
+
     get_variants.short_description = 'Variants'
+    inlines = [QuestionVariantInline]
 
-
-class QuestionVariantAdmin(TranslationAdmin):
+class QuestionVariantAdmin(admin.ModelAdmin):
     list_display = ('title', 'is_correct', 'question')
     list_filter = ('is_correct',)
 
-
-# Register models
 admin.site.register(Question, QuestionAdmin)
 admin.site.register(QuestionVariant, QuestionVariantAdmin)
