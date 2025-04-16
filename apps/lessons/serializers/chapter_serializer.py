@@ -12,4 +12,4 @@ class ChapterSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
     def get_duration(self, obj):
-        return obj.lessons.aggregate(total=Sum('duration'))['total'] or 0
+        return obj.chapter_lessons.aggregate(total=Sum('duration'))['total'] or 0
