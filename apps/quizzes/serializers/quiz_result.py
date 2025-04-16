@@ -9,7 +9,6 @@ class UserQuestionCreateSerializer(serializers.Serializer):
     incorrect_answers = serializers.ListField(
         child=serializers.UUIDField(), required=False
     )
-    print(correct_answers)
     def validate(self, attrs):
         correct_answers = attrs.get('correct_answers', [])
         incorrect_answers = attrs.get('incorrect_answers', [])

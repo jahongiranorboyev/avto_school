@@ -1,4 +1,4 @@
-from rest_framework import generics
+from rest_framework import generics, status
 from rest_framework.response import Response
 
 from apps.quizzes.models import UserQuestion
@@ -16,15 +16,16 @@ class UserSavedQuestionCreateAPIView(generics.CreateAPIView):
         question = serializer.validated_data['question']
         question_type = serializer.validated_data['question_type']
 
-        saved_question = UserQuestion.objects.filter(
-            user=user, question=question, question_type=question_type
-        ).first()
+        obj, created = UserQuestion.objects.get_or_create(
+            user=user, question_id=question.pk, question_type=question_type
+        )
 
-        if saved_question:
-            saved_question.delete()
-            return Response({'message': 'Saved question removed'}, status=200)
+        if not created:
+            obj.question.is_saved = False
+            obj.question.save()
+            obj.delete()
+            return Response({'message': 'Saved question removed'}, status=status.HTTP_200_OK)
 
-        UserQuestion.objects.create(user=user, question=question, question_type=question_type)
-        return Response({'message': 'Saved question added'}, status=201)
-
-
+        question.is_saved = True
+        question.save()
+        return Response({'message': 'Saved question added'}, status=status.HTTP_201_CREATED)

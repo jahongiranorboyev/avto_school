@@ -3,8 +3,8 @@ from django.dispatch import receiver
 from apps.quizzes.models import Question
 
 def update_question_category_count(category):
-    category.count = Question.objects.filter(question_category=category).count()
-    category.save(update_fields=['count'])
+    category.question_count = Question.objects.filter(question_category_id=category.pk).count()
+    category.save()
 
 @receiver(post_save, sender=Question)
 def post_save_question(sender, instance, created, **kwargs):

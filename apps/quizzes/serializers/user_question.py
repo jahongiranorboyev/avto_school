@@ -4,4 +4,4 @@ from apps.quizzes.models import UserQuestion
 class UserQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserQuestion
-        fields = ('question_type',)
+        fields = '__all__'
