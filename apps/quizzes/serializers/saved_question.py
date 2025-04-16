@@ -21,7 +21,6 @@ class SavedQuestionSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError({'detail':'Question ID was not provided.'})
 
         question = get_object_or_404(Question, id=question_id)
-
         data['question'] = question
         data['user'] = user
         data['question_type'] = UserQuestion.QuestionType.Saved

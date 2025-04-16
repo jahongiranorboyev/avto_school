@@ -9,9 +9,12 @@ class QuestionCategory(BaseModel):
     question_count = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     image = models.ImageField(
         upload_to='question_categories/%Y/%m/%d',
-        validators=[validate_image]
+        validators=[validate_image],
+        blank=True,
+        null=True
     )
     is_premium = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.title

@@ -9,4 +9,5 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
+    'apps.quizzes.middleware.ForceUserMiddleware',
 ]
