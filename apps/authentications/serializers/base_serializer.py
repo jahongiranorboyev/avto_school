@@ -1,17 +1,14 @@
-import os
 import random
 import string
 import time
 
-from apps.users.models import CustomUser
 
 from rest_framework import serializers
 from rest_framework_simplejwt.exceptions import AuthenticationFailed
 
-
 from apps.authentications import google
-from apps.users.serializers import LevelSerializer
-from apps.authentications.register import register_social_user
+from apps.users.models import CustomUser
+from apps.authentications.social_register.register import register_social_user
 
 
 def generate_reset_code():
@@ -24,6 +21,7 @@ def generate_reset_code():
             return code
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '603070947700-uhru8mm50534bfm6s1q0ofnlu2lh4hm8.apps.googleusercontent.com'
+
 
 class GoogleSocialAuthSerializer(serializers.Serializer):
     id_token = serializers.CharField()
@@ -46,7 +44,7 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
             raise ValueError({'error': 'Invalid token issuer'})
 
         if user_data['aud'] != SOCIAL_AUTH_GOOGLE_OAUTH2_KEY and user_data.get('azp') != SOCIAL_AUTH_GOOGLE_OAUTH2_KEY:
-            raise AuthenticationFailed(f'oops who are you {user_data['aud']} != {SOCIAL_AUTH_GOOGLE_OAUTH2_KEY} >> {user_data.get('azp')}')
+            raise AuthenticationFailed(f"oops who are you {user_data['aud']} != {SOCIAL_AUTH_GOOGLE_OAUTH2_KEY} >> {user_data.get('azp')}")
 
         current_time = int(time.time())
         if user_data.get("exp") < current_time:
@@ -62,7 +60,6 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
             'full_name':name,
             'user_code':user_code}
         return data
-
 
     def create(self, validated_data):
         id_token = validated_data.get("id_token")

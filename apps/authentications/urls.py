@@ -1,6 +1,7 @@
 from django.urls import path
 
 from apps.authentications.views import (
+    LogoutView,
     LoginAPIView,
     RegisterAPIView,
     GoogleAuthAPIView,
@@ -12,6 +13,7 @@ from apps.authentications.views import (
 
 urlpatterns = [
     path('login/', LoginAPIView.as_view(), name='login-user'),
+    path('logout/', LogoutView.as_view(), name='logout-user'),
     path('register/', RegisterAPIView.as_view(), name='register-user'),
     path('register-verify-code/', RegisterVerifyCodeAPIView.as_view(), name='register-verify-code'),
     path('forget-password/', ForgetPasswordAPIView.as_view(), name='forget-password'),
