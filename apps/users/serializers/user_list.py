@@ -21,14 +21,14 @@ class UserListSerializer(serializers.ModelSerializer):
 
         level = data.get('level', {})
         coins = data.get('coins', 0)
-        if level:
+        if level and 'coins' in level:
             current_level_coins = level['coins']
+
             next_level = Level.objects.filter(coins__gt=current_level_coins).order_by('coins').first()
 
             if next_level:
                 next_level_coins = next_level.coins
-                remaining_coins = next_level_coins - coins
-                remaining_level_coins = next_level_coins - current_level_coins
+                remaining_coins = current_level_coins - coins
 
                 if remaining_coins > 0:
                     percentage = 100 - ((remaining_coins / remaining_level_coins) * 100)
