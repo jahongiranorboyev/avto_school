@@ -1,40 +1,19 @@
-from tokenize import TokenError
-
-from apps.users.models import CustomUser
-
 from rest_framework.response import Response
-from rest_framework import status, views
+from rest_framework import status, generics
 from rest_framework.permissions import IsAuthenticated
-from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.exceptions import AuthenticationFailed
+from apps.authentications.serializers import LogoutSerializer
 
 
-def get_user_from_refresh_token(refresh_token):
-    try:
-        token = RefreshToken(refresh_token)
-        user_id = token['user_id']
-        user = CustomUser.objects.get(id=user_id)
-        return user
-    except Exception:
-        raise AuthenticationFailed({'error': 'Invalid refresh token'})
-
-
-class LogoutView(views.APIView):
+class LogoutView(generics.GenericAPIView):
+    serializer_class = LogoutSerializer
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        refresh_token = request.data.get('refresh')
-        if refresh_token is None:
-            raise ValueError({'error': 'No refresh token provider'})
-        token = RefreshToken(refresh_token)
-        user_from_token = get_user_from_refresh_token(refresh_token)
-        if request.user.id == user_from_token.id:
-            raise ValueError({'error': 'This user not here'})
-        try:
-            token.blacklist()
-        except TokenError:
-            raise ValueError({'error': 'Token invalid or already used'})
-        return Response({"message": "Logged out successfully"}, status=status.HTTP_200_OK)
+    def post(self, request, *args, **kwargs):
 
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        message = {'message': 'logout success'}
+        return Response(message, status=status.HTTP_204_NO_CONTENT)
 
 

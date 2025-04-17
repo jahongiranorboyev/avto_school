@@ -3,6 +3,8 @@ from django.contrib import auth
 from rest_framework_simplejwt.exceptions import AuthenticationFailed
 from rest_framework import serializers
 
+
+
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField(write_only=True)
     password = serializers.CharField(write_only=True)
@@ -17,6 +19,7 @@ class LoginSerializer(serializers.Serializer):
         user = auth.authenticate(email=email, password=password)
         if user is None:
             raise serializers.ValidationError({"error": "Email yoki parol noto‘g‘ri"})
+
         if not user.is_active:
             raise AuthenticationFailed({'error': 'Account disabled, contact admin '})
 
@@ -28,7 +31,13 @@ class LoginSerializer(serializers.Serializer):
                 detail='Please continue your login using' + filter_user_by_email[0].auth_provider
             )
 
+        tokens = filter_user_by_email.tokens()
+        self.context['request'].session['refresh_token'] = tokens.get('refresh_token')
+
 
         return {
-            "tokens" : filter_user_by_email.tokens()
+            "access_token": str(tokens.get("access")),
+            "refresh_token": str(tokens.get("refresh")),
         }
+
+

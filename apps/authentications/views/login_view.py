@@ -5,6 +5,7 @@ from apps.authentications.serializers import LoginSerializer
 class LoginAPIView(generics.CreateAPIView):
     serializer_class = LoginSerializer
     authentication_classes = ()
+
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
