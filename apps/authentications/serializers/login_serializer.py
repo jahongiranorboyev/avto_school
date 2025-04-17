@@ -24,22 +24,6 @@ class LoginSerializer(serializers.Serializer):
     access_token = serializers.CharField(read_only=True)
 
     def validate(self, attrs):
-        """
-            Validates the provided email and password.
-
-            This method authenticates the user using Django's built-in authentication system.
-            If the authentication is successful, it returns the user's JWT tokens.
-            If the authentication fails, it raises a validation error with an appropriate message.
-
-            Parameters:
-            attrs (dict): The input data containing 'email' and 'password'.
-
-            Returns:
-            dict: Contains 'access_token' and 'refresh_token' if the authentication is successful.
-
-            Raises:
-            serializers.ValidationError: If the authentication fails.
-        """
         email = attrs.get("email")
         password = attrs.get("password")
 
