@@ -48,7 +48,7 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
 
         current_time = int(time.time())
         if user_data.get("exp") < current_time:
-            raise CustomAPIException(message=_('Token has expired'))
+            raise ValueError({'error': 'Token has expired'})
 
         email = user_data['email']
         name = user_data['name']
