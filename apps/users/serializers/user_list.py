@@ -10,7 +10,9 @@ from apps.users.models import CustomUser
 
 class UserListSerializer(serializers.ModelSerializer):
     level = LevelSerializer()
+    # current_level_percentage = serializers.SerializerMethodField()
     total_questions = serializers.SerializerMethodField()
+
 
 
     def get_total_questions(self, obj):
@@ -25,20 +27,22 @@ class UserListSerializer(serializers.ModelSerializer):
 
         level = data.get('level', {})
         coins = data.get('coins', 0)
-        if level and 'coins' in level:
+        if level:
             current_level_coins = level['coins']
-
             next_level = Level.objects.filter(coins__gt=current_level_coins).order_by('coins').first()
 
             if next_level:
                 next_level_coins = next_level.coins
-                remaining_coins = current_level_coins - coins
+                remaining_coins = next_level_coins - coins
+                remaining_level_coins = next_level_coins - current_level_coins
 
                 if remaining_coins > 0:
-                    percentage = (remaining_coins / (next_level_coins - current_level_coins)) * 100
-                    level['percentage'] = round(percentage, 2)
+                    percentage = 100 - ((remaining_coins / remaining_level_coins) * 100)
+                    level['next_level_percentage'] = round(percentage, 2)
                 else:
-                    level['percentage'] = 100
+                    level['next_level_percentage'] = 0
+            else:
+                level['next_level_percentage'] = 100
 
             data['level'] = level
 
