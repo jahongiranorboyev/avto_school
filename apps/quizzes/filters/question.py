@@ -12,6 +12,8 @@ class QuestionFilter(FilterSet):
 
     class Meta:
         model = Question
-        fields = ['mode', 'lesson', 'question_category']
+        fields = {
+            "question_category": ["exact"],
+        }
 
 
