@@ -1,11 +1,12 @@
 from django.contrib import admin
-from django.core.exceptions import ValidationError
 from django.forms.models import BaseInlineFormSet
+from modeltranslation.admin import TranslationAdmin
+from django.utils.translation import gettext_lazy as _
 
+from apps.general.views.custom_xception import CustomAPIException
 from apps.quizzes.models import Question, QuestionVariant
 
 
-# Custom formset for validation inside the admin
 class QuestionVariantInlineFormset(BaseInlineFormSet):
     def clean(self):
         super().clean()
@@ -19,20 +20,17 @@ class QuestionVariantInlineFormset(BaseInlineFormSet):
                     correct_answers += 1
 
         if total_forms < 2:
-            raise ValidationError("Har bir savol kamida 2 ta variantga ega bo'lishi kerak.")
+            raise CustomAPIException(_("Each question must have at least 2 options."))
         if correct_answers != 1:
-            raise ValidationError("Har bir savolda faqat 1 ta to'g'ri javob bo'lishi kerak.")
+            raise CustomAPIException(_("Each question should have only 1 correct answer."))
 
-
-# Inline form with the custom formset
 class QuestionVariantInline(admin.TabularInline):
     model = QuestionVariant
     extra = 1
     formset = QuestionVariantInlineFormset
 
 
-# Admin for Question model
-class QuestionAdmin(admin.ModelAdmin):
+class QuestionAdmin(TranslationAdmin):
     list_display = ('title', 'mode', 'question_category', 'lesson', 'get_variants')
     search_fields = ('title', 'description')
     list_filter = ('mode', 'question_category', 'lesson')
@@ -45,8 +43,7 @@ class QuestionAdmin(admin.ModelAdmin):
     get_variants.short_description = 'Variants'
 
 
-# Admin for QuestionVariant model
-class QuestionVariantAdmin(admin.ModelAdmin):
+class QuestionVariantAdmin(TranslationAdmin):
     list_display = ('title', 'is_correct', 'question')
     list_filter = ('is_correct',)
 
