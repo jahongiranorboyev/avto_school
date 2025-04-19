@@ -9,7 +9,6 @@ class QuestionVariantSerializer(serializers.ModelSerializer):
 class QuestionListSerializer(serializers.ModelSerializer):
     variants = QuestionVariantSerializer(many=True, read_only=True)
 
-
     class Meta:
         model = Question
         fields = ['id', 'title', 'is_saved','description', 'mode', 'video', 'image', 'question_category', 'lesson', 'variants']
