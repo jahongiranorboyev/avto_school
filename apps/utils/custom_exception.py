@@ -10,4 +10,3 @@ class CustomAPIException(APIException):
             self.detail = message
 
         self.status_code = status_code
-

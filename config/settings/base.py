@@ -1,18 +1,11 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-
+from django.utils.translation import gettext_lazy as _
 load_dotenv()
 
-from django.conf.global_settings import STATIC_ROOT
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get("SECRET_KEY")
-
-# SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
@@ -20,27 +13,20 @@ ALLOWED_HOSTS = ['*']
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 
-# INSTALLED_APPS
-# config/settings/installed_apps
-
-# Database
-# config/settings/databases
-
-# Password validation
-# config/settings/auth_password_validators
-
-# MIDDLEWARE
-# config/settings/middleware
-
-# TEMPLATES
-# config/settings/templates
-
-# Internationalization
-# https://docs.djangoproject.com/en/5.1/topics/i18n/
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Asia/Tashkent'
 USE_I18N = True
 USE_TZ = True
+
+LANGUAGES = [
+    ('en', _('English')),
+    ('uz', _('Uzbek')),
+    ('ru', _('Russian')),
+]
+
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_LANGUAGES = ('uz', 'ru', 'en')
+MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'uz'
 
 # Static and Media
 STATIC_URL = 'static/'
@@ -66,7 +52,7 @@ CACHES = {
 }
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'd  jango.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
