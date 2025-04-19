@@ -2,8 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.db.models import Avg,F,FloatField
 
-from apps.quizzes.models.quiz_result import QuizResult
 from apps.utils.models import BaseModel
+from apps.quizzes.models.quiz_result import QuizResult
 
 
 class UserQuestionCategory(BaseModel):

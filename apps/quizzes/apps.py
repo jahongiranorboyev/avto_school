@@ -7,3 +7,4 @@ class QuizzesConfig(AppConfig):
 
     def ready(self):
         import apps.quizzes.signals
+        import apps.quizzes.translation

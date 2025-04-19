@@ -1,7 +1,8 @@
 from rest_framework import serializers
-from django.shortcuts import get_object_or_404
+from django.utils.translation import gettext_lazy as _
 
 from apps.quizzes.models import UserQuestion, Question
+from apps.utils.custom_exception import CustomAPIException
 
 
 class SavedQuestionSerializer(serializers.ModelSerializer):
@@ -14,13 +15,16 @@ class SavedQuestionSerializer(serializers.ModelSerializer):
         user = self.context['request'].user
 
         if not  user and not user.is_authenticated:
-            raise serializers.ValidationError({'detail':'Authentication credentials were not provided.'})
+            raise CustomAPIException({'detail':_('Authentication credentials were not provided.')})
 
         question_id = data.get('question_id')
         if not question_id:
-            raise serializers.ValidationError({'detail':'Question ID was not provided.'})
+            raise CustomAPIException({'detail':_('Question ID was not provided.')})
 
-        question = get_object_or_404(Question, id=question_id)
+        question = Question.objects.get(id=question_id)
+        if question is None:
+            raise CustomAPIException({'detail':_('Question ID was not provided.')})
+
         data['question'] = question
         data['user'] = user
         data['question_type'] = UserQuestion.QuestionType.Saved

@@ -5,3 +5,5 @@ class UserQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserQuestion
         fields = '__all__'
+
+

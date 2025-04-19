@@ -21,7 +21,7 @@ class QuizResult(BaseModel):
     total_questions = models.IntegerField(
         editable=False,
         default= 0,
-        validators=[MinValueValidator(1)]
+        validators=[MinValueValidator(0)]
     )
     def save(self,*args,**kwargs):
         self.total_questions = self.correct_answers + self.incorrect_answers
