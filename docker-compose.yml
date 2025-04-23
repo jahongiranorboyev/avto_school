@@ -1,0 +1,64 @@
+services:
+  postgres_db:
+    image: postgres:17
+    container_name: my_avto_db
+    networks:
+      - avto_network
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=1
+      - POSTGRES_DB=db_avto
+      - POSTGRES_USER=user_avto
+
+  redis:
+    image: redis:latest
+    container_name: redis
+    volumes:
+      - redis_data:/data
+    networks:
+      - avto_network
+
+  web:
+    build:
+      context: .
+    image: avto_school
+    container_name: my_avto
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgres_db
+    volumes:
+      - .:/var/www/avto
+    networks:
+      - avto_network
+
+  celer:
+    build:
+      context: .
+    container_name: celery
+    command: celery -A config worker --loglevel=info
+    depends_on:
+      - web
+      - redis
+    networks:
+      - avto_network
+
+  celer_beat:
+    build:
+      context: .
+    container_name: celery-beat
+    command: celery -A config beat --loglevel=info
+    depends_on:
+      - web
+      - redis
+      - celer
+    networks:
+      - avto_network
+
+networks:
+  avto_network:
+volumes:
+  db_data:
+  redis_data:
