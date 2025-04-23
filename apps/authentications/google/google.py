@@ -1,12 +1,12 @@
-import logging
-import base64
 import json
+import base64
+import logging
 
-from rest_framework import serializers
-from tokenize import TokenError
+from django.utils.translation import gettext_lazy as _
+
+from apps.general.views.custom_xception import CustomAPIException
 
 logger = logging.getLogger(__name__)
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '603070947700-uhru8mm50534bfm6s1q0ofnlu2lh4hm8.apps.googleusercontent.com'
 
 
 class Google:
@@ -18,7 +18,7 @@ class Google:
             token_parts = auth_token.split('.')
 
             if len(token_parts) != 3:
-                raise serializers.ValidationError({"error": "Invalid token format"})
+                raise CustomAPIException(message=_("Invalid token format"))
 
             header_sp, payload_sp, signature_sp = token_parts
             payload_sp += "=" * (4 - len(payload_sp) % 4)
@@ -27,7 +27,7 @@ class Google:
 
             return user_data
 
-        except Exception as e:
-            raise TokenError({'error': f'Failed to decode token: {str(e)}'})
+        except Exception:
+            raise CustomAPIException(message=_('Failed to decode token'))
 
 

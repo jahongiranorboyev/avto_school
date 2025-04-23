@@ -4,9 +4,6 @@ from django.dispatch import receiver
 from apps.general.models import Level
 from apps.users.models import CustomUser
 
-
-
-
 @receiver(post_save, dispatch_uid="update_user_level")
 def update_user_level(sender, instance, **kwargs):
     if isinstance(instance, CustomUser):

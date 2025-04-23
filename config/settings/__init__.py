@@ -1,5 +1,7 @@
 from .base import *
+from .email import *
 from .templates import *
+from .language import *
 from .databases import *
 from .middleware import *
 from .installed_apps import *

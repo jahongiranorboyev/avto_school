@@ -1,19 +1,13 @@
 from rest_framework import serializers
 
 from apps.general.models import Level
-from apps.general.serializers.level import LevelSerializer
 from apps.users.models import CustomUser
-
-
-
+from apps.general.serializers.level import LevelSerializer
 
 
 class UserListSerializer(serializers.ModelSerializer):
     level = LevelSerializer()
-    # current_level_percentage = serializers.SerializerMethodField()
     total_questions = serializers.SerializerMethodField()
-
-
 
     def get_total_questions(self, obj):
         return self.context.get('total_questions', 0)

@@ -5,3 +5,4 @@ from .register_view import *
 from .forget_password_view import *
 from .verify_code_view import *
 from .reset_password_view import *
+from .resend_verify_code_view import *
