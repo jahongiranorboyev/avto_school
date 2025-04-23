@@ -18,6 +18,6 @@ class LessonTermsListAPIView(generics.ListAPIView):
     serializer_class = LessonTermSerializer
 
 
-class UserLessonListAPIView(generics.ListAPIView):
+class UserLessonAPIView(generics.ListCreateAPIView):
     queryset = UserLesson.objects.all()
     serializer_class = UserLessonSerializer
