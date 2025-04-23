@@ -12,10 +12,8 @@ class UserListAPIView(generics.ListAPIView):
     serializer_class = UserListSerializer
     parser_classes = [MultiPartParser, FormParser]
 
-
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context['total_questions'] = Question.objects.count()
-
         return context
 

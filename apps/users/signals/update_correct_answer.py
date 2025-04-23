@@ -4,10 +4,6 @@ from django.dispatch import receiver
 
 from apps.quizzes.models import QuizResult
 
-
-
-
-
 @receiver(post_save, sender=QuizResult)
 def update_users_correct_answer(sender, instance, **kwargs):
     user = instance.user

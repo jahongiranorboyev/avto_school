@@ -13,20 +13,8 @@ ALLOWED_HOSTS = ['*']
 ROOT_URLCONF = 'config.urls'
 WSGI_APPLICATION = 'config.wsgi.application'
 
-LANGUAGE_CODE = 'en'
 TIME_ZONE = 'Asia/Tashkent'
-USE_I18N = True
 USE_TZ = True
-
-LANGUAGES = [
-    ('en', _('English')),
-    ('uz', _('Uzbek')),
-    ('ru', _('Russian')),
-]
-
-MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
-MODELTRANSLATION_LANGUAGES = ('uz', 'ru', 'en')
-MODELTRANSLATION_PREPOPULATE_LANGUAGE = 'uz'
 
 # Static and Media
 STATIC_URL = 'static/'
@@ -56,15 +44,12 @@ CACHES = {
 }
 
 
-EMAIL_BACKEND = 'd  jango.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'hikmatovsanjar885@gmail.com'
-EMAIL_HOST_PASSWORD = 'ubmb kdxt mmgu vgbt'
-DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
 CORS_ALLOWED_ORIGINS = [
-    'https://5e69-90-156-198-203.ngrok-free.app'
+    'https://8cce-90-156-198-203.ngrok-free.app'
 ]
+
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_ID = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')

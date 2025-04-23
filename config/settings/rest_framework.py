@@ -64,8 +64,8 @@ REST_FRAMEWORK= {
     'VIEW_DESCRIPTION_FUNCTION': 'rest_framework.views.get_view_description',
 
     # Exception handling
+
     'EXCEPTION_HANDLER': 'app.utils.handler.custom_exception_handler',
-    'NON_FIELD_ERRORS_KEY': 'non_field_errors',
 
     # Testing
     'TEST_REQUEST_RENDERER_CLASSES': [

@@ -1,0 +1,14 @@
+@keyframes pulse {
+    0% { transform: scale(1) translateY(0); }
+    25% { transform: scale(1.2) translateY(-3px); }
+    50% { transform: scale(0.9) translateY(2px); }
+    75% { transform: scale(1.1) translateY(-1px); }
+    100% { transform: scale(1) translateY(0); }
+}
+@keyframes colorChange {
+    0% { color: #1e88e5; }
+    25% { color: #e91e63; }
+    50% { color: #4caf50; }
+    75% { color: #ff9800; }
+    100% { color: #1e88e5; }
+}

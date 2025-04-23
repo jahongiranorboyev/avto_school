@@ -7,6 +7,7 @@ from apps.authentications.views import (
     GoogleAuthAPIView,
     ResetPasswordAPIView,
     ForgetPasswordAPIView,
+    ReSendVerifyCodeAPIView,
     RegisterVerifyCodeAPIView,
     ForgetPasswordVerifyCodeAPIView,
 )
@@ -17,11 +18,9 @@ urlpatterns = [
     path('register/', RegisterAPIView.as_view(), name='register-user'),
     path('register-verify-code/', RegisterVerifyCodeAPIView.as_view(), name='register-verify-code'),
     path('forget-password/', ForgetPasswordAPIView.as_view(), name='forget-password'),
-    path('forget-password-verify-code/',
-         ForgetPasswordVerifyCodeAPIView.as_view(),
+    path('forget-password-verify-code/', ForgetPasswordVerifyCodeAPIView.as_view(),
          name='forget-password-verify-code'),
-    path('reset-password/<str:encoded_pk>/<str:token>',
-         ResetPasswordAPIView.as_view(),
-         name='reset-password'),
+    path('reset-password/', ResetPasswordAPIView.as_view(), name='reset-password'),
     path('google/', GoogleAuthAPIView.as_view(), name='validate_auth_token'),
+    path('re-send-verify-code', ReSendVerifyCodeAPIView.as_view(), name='re-send-verify-code'),
 ]

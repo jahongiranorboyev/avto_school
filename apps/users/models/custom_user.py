@@ -2,13 +2,14 @@ import random
 import string
 
 from django.db import models
+from django.db import transaction
 from django.contrib.auth.hashers import make_password
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import UserManager, AbstractUser
 
-from apps.utils.models.base_model import BaseModel
 from rest_framework_simplejwt.tokens import RefreshToken
-from django.db import transaction
+
+from apps.utils.models.base_model import BaseModel
 
 
 class CustomUserManager(UserManager):
@@ -50,7 +51,7 @@ class CustomUser(BaseModel, AbstractUser):
     full_name = models.CharField(max_length=150)
     first_name = models.CharField(max_length=30, blank=True, null=True)
     last_name = models.CharField(max_length=30, blank=True, null=True)
-
+    language = models.ForeignKey('utils.CustomLanguage', on_delete=models.PROTECT, blank=True, null=True)
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['full_name']
 
@@ -65,29 +66,11 @@ class CustomUser(BaseModel, AbstractUser):
         max_length=50,
         default=AuthProviders.EMAIL)
 
-
     def __str__(self):
         return f'Full name: {self.full_name}'
 
-
-    def clean(self):
-        super().clean()
-        len_full_name = len(self.full_name.strip().split())
-        if len_full_name != 2:
-            raise ValueError({'error': 'Full name should be like this Jon Dou'})
-
-
-    def _make_first_and_last_name(self):
-        name = self.full_name.strip().split()
-        if len(name) > 2:
-            self.first_name = name[0]
-            self.last_name = name[1] if len(name) < 2 else 0
-
     def save(self, *args, **kwargs):
-        self._make_first_and_last_name()
         if not self.pk:
-
-
             self.coins = 10
 
             exists_code = set(CustomUser.objects.values_list('user_code', flat=True))
@@ -105,6 +88,3 @@ class CustomUser(BaseModel, AbstractUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
-
-
-

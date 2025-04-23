@@ -1,9 +1,11 @@
 import os
-from django.contrib.auth import authenticate
-from rest_framework.exceptions import AuthenticationFailed
-from apps.users.models import CustomUser
+from django.conf import settings
 from django.db import transaction
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
+
+from apps.users.models import CustomUser
+from apps.utils.custom_exception import CustomAPIException
 
 @transaction.atomic()
 def register_social_user(provider, email, full_name, user_code, *args, **kwargs):
@@ -13,7 +15,7 @@ def register_social_user(provider, email, full_name, user_code, *args, **kwargs)
         try:
             if provider == filtered_user_by_email.auth_provider:
                 registered_user = authenticate(
-                    email=email, password = SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
+                    email=email, password = settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET
                 )
 
                 return {
@@ -21,16 +23,16 @@ def register_social_user(provider, email, full_name, user_code, *args, **kwargs)
                 }
             else:
 
-                raise AuthenticationFailed(
-                    detail='Please continue your login using ' + filtered_user_by_email.auth_provider
+                raise CustomAPIException(
+                    message=_('Please continue your login using ') + filtered_user_by_email.auth_provider
                 )
-        except IndexError as e:
-            raise {'error ': f'We do not have any user in base: {str(e)}'}
+        except CustomAPIException:
+            raise CustomAPIException(message=_(f'We do not have any user in base'))
     else:
         if provider == 'telegram':
             user = {
                 'email': email,
-                'password': SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+                'password': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
                 'full_name': full_name
             }
 
@@ -38,7 +40,7 @@ def register_social_user(provider, email, full_name, user_code, *args, **kwargs)
             user.auth_provider = provider
             user.save()
             new_user = authenticate(
-                email=email, password=SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET)
+                email=email, password=settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET)
 
             return {
                 'tokens': new_user.tokens(),
@@ -47,7 +49,7 @@ def register_social_user(provider, email, full_name, user_code, *args, **kwargs)
 
             user = {
                 'email': email,
-                'password': SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+                'password': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
                 'full_name': full_name
             }
 
@@ -55,7 +57,7 @@ def register_social_user(provider, email, full_name, user_code, *args, **kwargs)
             user.auth_provider = provider
             user.save()
             new_user = authenticate(
-                email=email, password=SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET)
+                email=email, password=settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET)
 
             return {
                 'tokens': new_user.tokens(),

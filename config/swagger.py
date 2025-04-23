@@ -12,6 +12,7 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=(permissions.AllowAny,)
+    permission_classes=(permissions.AllowAny,),
+    url='https://8cce-90-156-198-203.ngrok-free.app'
 
 )

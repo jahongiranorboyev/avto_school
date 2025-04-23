@@ -1,5 +1,9 @@
 from rest_framework import serializers
 
+from django.utils.translation import gettext_lazy as _
+
+from apps.utils.custom_exception import CustomAPIException
+
 
 class EditProfileSerializer(serializers.Serializer):
     re_password = serializers.CharField(required=False)
@@ -14,10 +18,10 @@ class EditProfileSerializer(serializers.Serializer):
 
         user = request.user
         if not user or not user.is_authenticated:
-            raise serializers.ValidationError('User did not register')
+            raise CustomAPIException(_('User did not register'))
 
         if password != re_password:
-            raise serializers.ValidationError('Password and Re Password must be equal please check it')
+            raise CustomAPIException(_('Password and Re Password must be equal please check it'))
 
         return attrs
 

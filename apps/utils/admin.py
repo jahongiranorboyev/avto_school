@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from apps.utils.models import CustomLanguage
+
+
+@admin.register(CustomLanguage)
+class CustomLanguageAdmin(admin.ModelAdmin):
+    list_display = ('name', 'is_active', 'ordering')

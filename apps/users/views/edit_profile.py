@@ -8,8 +8,8 @@ from apps.users.serializers import EditProfileSerializer
 class EditProfileAPIView(generics.GenericAPIView):
     serializer_class = EditProfileSerializer
     parser_classes = [MultiPartParser, FormParser]
-    def patch(self, request, *args, **kwargs):
 
+    def patch(self, request, *args, **kwargs):
         user = request.user
         serializer = self.get_serializer(instance=user, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
