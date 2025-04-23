@@ -3,11 +3,6 @@ from django.contrib import admin
 from apps.general.models import *
 
 
-@admin.register(Tariff)
-class TariffAdmin(admin.ModelAdmin):
-    list_display = ('title','days','price','discount')
-    list_filter = ('days', 'price')
-    search_fields = ('title',)
 
 
 @admin.register(Level)
