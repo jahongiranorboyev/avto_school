@@ -1,14 +1,14 @@
 from django.utils import timezone
 
-from rest_framework import status
+from rest_framework import status, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-# from apps.general.models import Tariff
+from apps.payments.models import Tariff
 from apps.payments.models import Order, Transaction
 from apps.utils.services.payments.generate_url import generate_payment_url
 from apps.utils.services.payments.check_payment_functions import validation
-
+from apps.payments.serializer import TariffSerializer
 
 class PaymentLinkAPIView(APIView):
     def post(self, request):
@@ -98,3 +98,8 @@ class PaymeWebhookAPIView(APIView):
                 data = {}
 
         return Response(data, status=status.HTTP_200_OK)
+
+
+class TariffListCreateAPIView(generics.ListAPIView):
+    queryset = Tariff.objects.order_by('-created_at')
+    serializer_class = TariffSerializer
