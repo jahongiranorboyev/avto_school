@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from apps.general.models import Tariff
+# from apps.general.models import Tariff
 from apps.payments.models import Order, Transaction
 from apps.utils.services.payments.generate_url import generate_payment_url
 from apps.utils.services.payments.check_payment_functions import validation
