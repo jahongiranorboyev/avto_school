@@ -1,15 +1,15 @@
 services:
   postgres_db:
     image: postgres:17
-    container_name: my_avto_db
+    container_name: my_auto_db
     networks:
-      - avto_network
+      - auto_network
     volumes:
       - db_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=1
-      - POSTGRES_DB=db_avto
-      - POSTGRES_USER=user_avto
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
 
   redis:
     image: redis:latest
@@ -17,24 +17,24 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - avto_network
+      - auto_network
 
   web:
     build:
       context: .
-    image: avto_school
-    container_name: my_avto
-    command: python manage.py runserver 0.0.0.0:8000
+    image: auto_school
+    container_name: my_auto
+    command: ["/wait-db.sh", "postgres_db","5432", "python", "manage.py", "runserver", "0.0.0.0:8000" ]
     ports:
       - "8000:8000"
     depends_on:
       - postgres_db
     volumes:
-      - .:/var/www/avto
+      - .:/var/www/auto
     networks:
-      - avto_network
+      - auto_network
 
-  celer:
+  celery:
     build:
       context: .
     container_name: celery
@@ -43,9 +43,9 @@ services:
       - web
       - redis
     networks:
-      - avto_network
+      - auto_network
 
-  celer_beat:
+  celery_beat:
     build:
       context: .
     container_name: celery-beat
@@ -53,12 +53,12 @@ services:
     depends_on:
       - web
       - redis
-      - celer
+      - celery
     networks:
-      - avto_network
+      - auto_network
 
 networks:
-  avto_network:
+  auto_network:
 volumes:
   db_data:
   redis_data:

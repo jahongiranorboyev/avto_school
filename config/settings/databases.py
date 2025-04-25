@@ -1,3 +1,4 @@
+
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 from django.conf import settings
 
@@ -7,15 +8,18 @@ from django.conf import settings
 #         'NAME': settings.BASE_DIR / 'db.sqlite3',
 #     }
 # }
+from dotenv import load_dotenv
+import os
+load_dotenv()
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'db_avto',
-        'USER': 'user_avto',
-        'PASSWORD': 1,
-        'HOST': 'my_avto_db',
-        'PORT': '5432',
+        'NAME': os.getenv('DB_NAME'),
+        'USER': os.getenv('DB_USER'),
+        'PASSWORD': os.getenv('DB_PASSWORD'),
+        'HOST': os.getenv('DB_HOST'),
+        'PORT': os.getenv('DB_PORT'),
     }
 }
-
 
