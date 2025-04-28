@@ -3,13 +3,14 @@ from django.template.loader import render_to_string
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 import logging
+from celery import shared_task
 
 from apps.utils.custom_exception import CustomAPIException
 
 logger = logging.getLogger(__name__)
 
 
-
+@shared_task
 def send_verification_code_email(email, code, purpose):
     if email is None:
         raise CustomAPIException(message={'error': _('Email is required')})

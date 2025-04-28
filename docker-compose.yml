@@ -2,14 +2,14 @@ services:
   postgres_db:
     image: postgres:17
     container_name: my_auto_db
+    env_file:
+      - .env
     networks:
       - auto_network
     volumes:
       - db_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+    restart: always
 
   redis:
     image: redis:latest
@@ -17,14 +17,18 @@ services:
     volumes:
       - redis_data:/data
     networks:
-      - auto_network
+    - auto_network
+    restart: always
+    ports:
+      - "6379:6379"
 
   web:
     build:
       context: .
     image: auto_school
     container_name: my_auto
-    command: ["/wait-db.sh", "postgres_db","5432", "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+    command: [ "/wait-db.sh", "postgres_db", "5432", "python", "manage.py", "runserver", "0.0.0.0:8000" ]
+
     ports:
       - "8000:8000"
     depends_on:
@@ -33,22 +37,28 @@ services:
       - .:/var/www/auto
     networks:
       - auto_network
+    restart: always
 
   celery:
     build:
       context: .
     container_name: celery
+    env_file:
+      - .env
     command: celery -A config worker --loglevel=info
     depends_on:
       - web
       - redis
     networks:
       - auto_network
+    restart: always
 
   celery_beat:
     build:
       context: .
     container_name: celery-beat
+    env_file:
+      - .env
     command: celery -A config beat --loglevel=info
     depends_on:
       - web
@@ -56,9 +66,11 @@ services:
       - celery
     networks:
       - auto_network
+    restart: always
 
 networks:
   auto_network:
+
 volumes:
   db_data:
   redis_data:
