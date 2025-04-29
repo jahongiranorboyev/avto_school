@@ -27,6 +27,7 @@ THIRD_PARTY_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'drf_yasg',
+    'ckeditor'
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + INSTALLED_APPS + MY_APPS
