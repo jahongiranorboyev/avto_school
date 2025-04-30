@@ -42,4 +42,7 @@ class LogoutSerializer(serializers.Serializer):
         except TokenError:
             self.fail('token failed')
 
+        request = self.context.get('request')
+
+        request.session.pop('refresh_token', None)
 

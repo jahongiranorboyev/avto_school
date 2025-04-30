@@ -12,6 +12,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from apps.utils.models.base_model import BaseModel
 
 
+
 class CustomUserManager(UserManager):
     @transaction.atomic()
     def _create_user(self, email, password, **extra_fields):
