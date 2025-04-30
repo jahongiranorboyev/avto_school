@@ -31,7 +31,6 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'django_filters',
     'modeltranslation',
-    'django_filters',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + INSTALLED_APPS + MY_APPS
