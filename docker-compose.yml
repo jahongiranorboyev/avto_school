@@ -2,22 +2,25 @@ services:
   postgres_db:
     image: postgres:17
     container_name: my_auto_db
+    env_file:
+      - .env
     networks:
       - auto_network
     volumes:
       - db_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=${DB_NAME}
-      - POSTGRES_USER=${DB_USER}
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    restart: always
+
 
   redis:
     image: redis:latest
     container_name: redis
+    env_file:
+      - .env
     volumes:
       - redis_data:/data
     networks:
       - auto_network
+    restart: always
 
   web:
     build:
@@ -33,22 +36,28 @@ services:
       - .:/var/www/auto
     networks:
       - auto_network
+    restart: always
 
   celery:
     build:
       context: .
     container_name: celery
+    env_file:
+      - .env
     command: celery -A config worker --loglevel=info
     depends_on:
       - web
       - redis
     networks:
       - auto_network
+    restart: always
 
   celery_beat:
     build:
       context: .
     container_name: celery-beat
+    env_file:
+      - .env
     command: celery -A config beat --loglevel=info
     depends_on:
       - web
