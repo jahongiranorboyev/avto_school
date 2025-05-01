@@ -1,7 +1,9 @@
 #CKEDITOR CONFIGS
-
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': 'Basic'
+        'toolbar': 'Full'
     }
 }
+
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+
