@@ -1,18 +1,26 @@
+from django.utils.translation import gettext_lazy as _
+
 from rest_framework import generics
-from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.parsers import MultiPartParser, FormParser
 
+from apps.users.models import CustomUser
 from apps.users.serializers import EditProfileSerializer
+from apps.utils.custom_exception import CustomAPIException
 
 
-class EditProfileAPIView(generics.GenericAPIView):
+class EditProfileAPIView(generics.UpdateAPIView):
+    queryset = CustomUser.objects.all()
     serializer_class = EditProfileSerializer
     parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        obj = super().get_object()
+        if obj.id != self.request.user.id:
+            raise CustomAPIException(message=_("this user not you"))
+        return obj
 
     def patch(self, request, *args, **kwargs):
-        user = request.user
-        serializer = self.get_serializer(instance=user, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response()
+        return self.partial_update(request, *args, **kwargs)
 

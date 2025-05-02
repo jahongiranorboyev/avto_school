@@ -1,10 +1,11 @@
 from django.urls import path
-from apps.users.views import UserListAPIView, EditProfileAPIView, SupportAPIView
-
+from apps.users import views
 
 urlpatterns = [
-    path('', UserListAPIView.as_view(), name='user-list'),
-    path('edit-profile/', EditProfileAPIView.as_view(), name='edit-profile'),
-    path('support/', SupportAPIView.as_view(), name='support-name')
+    path('', views.UserListAPIView.as_view(), name='user-list'),
+    path('edit-profile/<str:pk>/', views.EditProfileAPIView.as_view(), name='edit-profile'),
+    path('support/create/', views.SupportAPIView.as_view(), name='support-name'),
+    path('support/report-choices/', views.ReportChoicesAPIView.as_view(), name='report-choices'),
+    path('promo-code/<str:pk>/', views.PromoCodeRetrieveAPIView.as_view(), name='promo-code'),
 ]
 

@@ -1,11 +1,11 @@
 from rest_framework import serializers
 
 from apps.general.models import Level
-from apps.users.models import CustomUser
 from apps.general.serializers.level import LevelSerializer
+from apps.users.models import CustomUser
 
 
-class UserListSerializer(serializers.ModelSerializer):
+class CustomUserListSerializer(serializers.ModelSerializer):
     level = LevelSerializer()
     total_questions = serializers.SerializerMethodField()
 
@@ -15,20 +15,23 @@ class UserListSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = '__all__'
+        extra_kwargs = {
+            'password': {'write_only': True, 'required': False},
+        }
 
     def to_representation(self, instance):
         data = super().to_representation(instance)
 
         level = data.get('level', {})
         coins = data.get('coins', 0)
-        if level and 'coins' in level:
+        if level:
             current_level_coins = level['coins']
-
             next_level = Level.objects.filter(coins__gt=current_level_coins).order_by('coins').first()
 
             if next_level:
                 next_level_coins = next_level.coins
-                remaining_coins = current_level_coins - coins
+                remaining_coins = next_level_coins - coins
+                remaining_level_coins = next_level_coins - current_level_coins
 
                 if remaining_coins > 0:
                     percentage = 100 - ((remaining_coins / remaining_level_coins) * 100)
