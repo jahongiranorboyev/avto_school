@@ -1,35 +1,7 @@
-from django.conf import settings
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 from apps.utils.models import BaseModel
-
-
-class Order(BaseModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.PROTECT)
-    tariff = models.ForeignKey('general.Tariff', on_delete=models.PROTECT)
-    days = models.IntegerField(
-        default=0,
-        blank=True,
-        null=True
-    )
-    expire_date = models.DateTimeField(
-        null=True,
-        blank=True
-    )
-    price = models.FloatField(
-        blank=True,
-        null=True
-    )
-    discount_price = models.DecimalField(
-        max_digits=10,
-        decimal_places=2,
-        blank=True,
-        null=True
-    )
-    is_paid = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.user.username
 
 
 class Transaction(BaseModel):
@@ -40,7 +12,7 @@ class Transaction(BaseModel):
         CANCELLED = -2
 
     state = models.IntegerField(choices=State, default=State.AWAITING_PAYMENT)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(to='payments.Order', on_delete=models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     performed_at = models.DateTimeField(blank=True, null=True)
@@ -62,4 +34,3 @@ class Transaction(BaseModel):
 
     def __str__(self):
         return self.pk
-

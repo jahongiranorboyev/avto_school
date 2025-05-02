@@ -1,16 +1,16 @@
 import random
 import string
+from datetime import timedelta
+from django.utils import timezone
 
 from django.db import models
-from django.db import transaction
 from django.contrib.auth.hashers import make_password
 from django.core.validators import FileExtensionValidator
 from django.contrib.auth.models import UserManager, AbstractUser
 
-from rest_framework_simplejwt.tokens import RefreshToken
-
 from apps.utils.models.base_model import BaseModel
-
+from rest_framework_simplejwt.tokens import RefreshToken
+from django.db import transaction
 
 
 class CustomUserManager(UserManager):
@@ -62,7 +62,7 @@ class CustomUser(BaseModel, AbstractUser):
     coins = models.PositiveSmallIntegerField(default=0)
     correct_answers = models.FloatField(default=0)
     last_10_quiz_results_avg = models.FloatField(default=0)
-    order_expire_date = models.DateTimeField(auto_now_add=True)
+    order_expire_date = models.DateTimeField()
     auth_provider = models.CharField(
         max_length=50,
         default=AuthProviders.EMAIL)
@@ -71,9 +71,10 @@ class CustomUser(BaseModel, AbstractUser):
         return f'Full name: {self.full_name}'
 
     def save(self, *args, **kwargs):
-        if not self.pk:
+        is_new = self._state.adding
+        if is_new:
+            self.order_expire_date = timezone.now() - timedelta(days=1)
             self.coins = 10
-
             exists_code = set(CustomUser.objects.values_list('user_code', flat=True))
             while True:
                 characters = string.ascii_letters + string.digits
@@ -89,3 +90,6 @@ class CustomUser(BaseModel, AbstractUser):
             'refresh': str(refresh),
             'access': str(refresh.access_token)
         }
+
+
+
