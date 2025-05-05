@@ -29,6 +29,7 @@ THIRD_PARTY_APPS = [
     'drf_yasg',
     'ckeditor',
     'ckeditor_uploader',
+    'django_celery_beat',
 ]
 
 INSTALLED_APPS = THIRD_PARTY_APPS + INSTALLED_APPS + MY_APPS
