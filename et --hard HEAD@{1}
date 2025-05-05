@@ -1,0 +1,21 @@
+[33mfc44b87[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnotification[m[33m, [m[1;31morigin/notification[m[33m)[m HEAD@{0}: rebase (finish): returning to refs/heads/notification
+[33mfc44b87[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnotification[m[33m, [m[1;31morigin/notification[m[33m)[m HEAD@{1}: rebase (pick): celery beat added
+[33m39a8b03[m HEAD@{2}: rebase (pick): ssss
+[33m932a4d5[m HEAD@{3}: commit: Save local changes before pull
+[33m48fc7d1[m HEAD@{4}: pull --rebase origin notification (pick): aaaa
+[33mda3ec92[m HEAD@{5}: pull --rebase origin notification (pick): ww
+[33mff32a5d[m HEAD@{6}: pull --rebase origin notification (start): checkout ff32a5dc552f716b5499088abc9fe2a7d0c4b247
+[33m0ef79a0[m HEAD@{7}: reset: moving to HEAD
+[33m0ef79a0[m HEAD@{8}: commit: celery beat added
+[33mb55f38a[m HEAD@{9}: checkout: moving from origin/notification to notification
+[33mf6abfb3[m[33m ([m[1;32morigin/notification[m[33m)[m HEAD@{10}: checkout: moving from notification to origin/notification
+[33mb55f38a[m HEAD@{11}: commit: ssss
+[33mfe96ec7[m HEAD@{12}: commit: incomplement prosecc
+[33m4346811[m HEAD@{13}: commit: aaaa
+[33mc1530e1[m HEAD@{14}: commit: ww
+[33md60f9a0[m HEAD@{15}: pull origin main: Fast-forward
+[33m2061695[m HEAD@{16}: commit: natofications and books apps changed
+[33m4d0a32d[m HEAD@{17}: commit: Minor change made
+[33m179f35b[m HEAD@{18}: commit (cherry-pick): good
+[33mafb32e0[m HEAD@{19}: checkout: moving from 21f3bc8626d1a416c9a2ae98465bc5ada5ba58bc to notification
+[33m21f3bc8[m HEAD@{20}: checkout: moving from notification to 21f3bc8
