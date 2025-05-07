@@ -1,36 +1,52 @@
-from rest_framework import status
-from models import FCMDevice
 from rest_framework.views import APIView
-from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
 
+from fcm_django.models import FCMDevice
+from firebase_admin import messaging
 
-class SendNotification(APIView):
+class SendNotificationToDeviceView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
-        title = request.data.get('title')
-        body = request.data.get('body')
+        device_id = request.data.get("device_id")
 
-        devices = FCMDevice.objects.filter(user=request.user)
+        if not device_id:
+            return Response({"error": "device_id is required"}, status=400)
 
-        if not devices.exists():
-            return Response({"error": "No devices found"}, status=status.HTTP_404_NOT_FOUND)
-        
-        all_messages = []
-        for device in devices:
-            match device.users.language:
-                case 'eng':
-                    title = ""
-                case 'ru':
-                    title = ""
-                case 'uz':
-                    title = ""
-            message = messaging.Message(
-                notification=messaging.Notification(title=title, body=body),token=device.id
-            )
+        try:
+            device = FCMDevice.objects.select_related('user').get(id=device_id)
+        except FCMDevice.DoesNotExist:
+            return Response({"error": "Device not found"}, status=404)
 
+        user = device.user
+        lang = user.lang
+
+        match lang:
+            case 'eng':
+                title = "Hello"
+                body = "You have a new message"
+            case 'ru':
+                title = "Привет"
+                body = "У вас есть новое сообщение"
+            case 'uz':
+                title = "Salom"
+                body = "Sizda yangi xabar bor"
+            case _:
+                title = "Hello"
+                body = "You have a new message"
+
+        message = messaging.Message(
+            notification=messaging.Notification(
+                title=title,
+                body=body,
+            ),
+            token=device.registration_id,
+        )
+
+        try:
             response = messaging.send(message)
-            all_messages.append({device.device_name: response})
-        
-        return Response("message": "Notifications sent")
+            return Response({"message": f"Notification sent to {user.username}", "firebase_id": response}, status=200)
+        except Exception as e:
+            return Response({"error": str(e)}, status=500)
