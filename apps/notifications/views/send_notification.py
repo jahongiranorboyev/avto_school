@@ -1,10 +1,15 @@
+import firebase_admin
+from firebase_admin import credentials, messaging
+from fcm_django.models import FCMDevice
+
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 
-from fcm_django.models import FCMDevice
-from firebase_admin import messaging
+
+cred = credentials.Certificate("path/to/serviceAccountKey.json")
+firebase_admin.initialize_app(cred)
 
 class SendNotificationToDeviceView(APIView):
     permission_classes = [IsAuthenticated]
@@ -47,6 +52,6 @@ class SendNotificationToDeviceView(APIView):
 
         try:
             response = messaging.send(message)
-            return Response({"message": f"Notification sent to {user.username}", "firebase_id": response}, status=200)
+            return Response({"message": f"Notification sent", "firebase_id": response}, status=200)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
