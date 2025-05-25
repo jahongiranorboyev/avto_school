@@ -33,4 +33,4 @@ class Transaction(BaseModel):
         return self.to_timestamp(self.created_at)
 
     def __str__(self):
-        return self.pk
+        return f'{self.pk}'

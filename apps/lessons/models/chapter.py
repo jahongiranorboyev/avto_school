@@ -26,4 +26,4 @@ class UserChapter(BaseModel):
     completed_lessons = models.PositiveSmallIntegerField(default=0)
 
     def __str__(self):
-        return self.user.id
+        return f'{self.user.id}'

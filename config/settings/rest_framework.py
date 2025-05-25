@@ -16,6 +16,7 @@ REST_FRAMEWORK= {
     ],
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny',
+
     ],
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
@@ -65,7 +66,7 @@ REST_FRAMEWORK= {
 
     # Exception handling
 
-    'EXCEPTION_HANDLER': 'app.utils.handler.custom_exception_handler',
+    'EXCEPTION_HANDLER': 'apps.utils.handler.custom_exception_handler',
 
     # Testing
     'TEST_REQUEST_RENDERER_CLASSES': [

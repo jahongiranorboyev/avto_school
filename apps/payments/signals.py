@@ -1,4 +1,3 @@
-from celery.utils.time import remaining
 from django.utils import timezone
 from django.dispatch import receiver
 from django.db.models.signals import pre_save

@@ -84,7 +84,7 @@ class TariffSerializer(serializers.ModelSerializer):
         return -discount
 
 
-    def to_representation(self, instance):
+    def to_representation_default(self, instance):
         """
             Customizes the serialized output based on the `mode` and context data.
             Removes pricing-related fields conditionally to avoid unnecessary exposure.
@@ -128,3 +128,96 @@ class TariffSerializer(serializers.ModelSerializer):
             data.pop(field, None)
 
         return data
+
+
+    def to_representation(self, instance):
+        """
+            Customizes the serialized output based on the `mode` and context data.
+            Removes pricing-related fields conditionally to avoid unnecessary exposure.
+        """
+        data = super().to_representation(instance)
+        user = self._get_user()
+        mode = self._get_mode()
+        fields_to_remove = set()
+        if mode == 'default':
+            """
+                In 'default' mode, remove all dynamic discount/balance fields.
+                Only static tariff fields are returned.
+            """
+            fields_to_remove.update(['new_price', 'balance', 'user_code_discount', 'discount_price'])
+
+        elif mode == 'coupon':
+            if self._get_user_order() is None:
+                fields_to_remove.update(['discount_price', 'balance', 'user_code_discount', 'new_price'])
+            """
+                In 'coupon' mode, show only the result of coupon discount.
+                Do not show balance-related or built-in discount data.
+            # """
+            if self._get_user_order() is not None:
+                fields_to_remove.update(['discount_price', 'balance'])
+
+
+        elif mode == 'balance':
+            """
+                In 'balance' mode, hide user-code discounts. Show or hide tariff discount based on its existence.
+            """
+            # if instance.discount is None and user.balance <=0:
+            #     fields_to_remove.update(['discount_price', 'user_code_discount', 'balance', 'new_price'])
+            #
+            # elif instance.discount is not None:
+            #     fields_to_remove.update(['user_code_discount', 'balance', ])
+            #
+            # elif user.balance > 0:
+            #     fields_to_remove.update(['user_code_discount', 'discount_price'])
+
+            fields = {'default':
+                          {user.balance > 0: ['user_code_discount', 'discount_price'],
+                           instance.discount is not None: ['user_code_discount', 'balance', ],
+                            instance.discount is None and user.balance <= 0:
+                    ['discount_price', 'user_code_discount', 'balance', 'new_price']}
+            }
+            fields_to_remove.update([fields.get(True,[  ])])
+
+
+        for field in fields_to_remove:
+            data.pop(field, None)
+
+        return data
+
+
+#=====================
+def to_representation(self, instance):
+    # Yangi ma'lumotlarni olish
+    data = super().to_representation(instance)
+    user = self._get_user()
+    mode = self._get_mode()
+
+    # fields_to_remove ni boshida bo'sh set qilib belgilaymiz
+    fields_to_remove = set()
+
+    # Shartlar va maydonlarni boshqaruvchi fields lug'ati
+    fields = {
+        'default': ['discount_price', 'user_code_discount', 'balance', 'new_price']
+        ,
+        'coupon': {
+            self._get_user_order() is None: ['discount_price', 'balance', 'user_code_discount', 'new_price'],
+            self._get_user_order() is not None: ['discount_price', 'balance']
+        },
+        'balance': {
+            instance.discount is None and user.balance <= 0: ['discount_price', 'user_code_discount', 'balance', 'new_price'],
+            instance.discount is not None: ['user_code_discount', 'balance'],
+            user.balance > 0: ['user_code_discount', 'discount_price']
+        }
+    }
+
+    # fields_to_remove'ni to'ldirish
+    # Tegishli shart bo'yicha maydonlarni olib tashlaymiz
+    if mode in fields:
+        for condition, remove_fields in fields[mode].items():
+            if condition:  # Agar shart bajarilsa
+                fields_to_remove.update(remove_fields)
+
+    # data ni filtrlash, kerakli maydonlarni olib tashlash
+    data = {k: v for k, v in data.items() if k not in fields_to_remove}
+
+    return data

@@ -17,4 +17,4 @@ class UserCompletedPhrase(BaseModel):
     phrase = models.ForeignKey(Phrase, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.user.id
+        return f'{self.user.id}'

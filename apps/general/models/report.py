@@ -38,4 +38,4 @@ class Report(BaseModel):
     )
 
     def __str__(self):
-        return self.question.title
+        return f'{self.question.id}'

@@ -37,4 +37,4 @@ class UserBookChapter(BaseModel):
     is_completed = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.id
+        return f'{self.user.id}'

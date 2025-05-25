@@ -13,4 +13,4 @@ class UserNotification(BaseModel):
 
     
     def __str__(self):
-        return self.user.id
+        return f'{self.user.id}'

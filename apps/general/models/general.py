@@ -14,4 +14,4 @@ class General(BaseModel):
 
 
     def __str__(self):
-        return self.user_code_discount
+        return f'{self.user_code_discount}'
