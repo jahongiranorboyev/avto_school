@@ -7,7 +7,7 @@ class SetLanguageMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        lang_header = request.headers.get('Accept-Language', 'us')
+        lang_header = request.headers.get('Accept-Language', 'en')
         lang_code = lang_header.split(',')[0].split('-')[0].strip()
 
         activate(lang_code)

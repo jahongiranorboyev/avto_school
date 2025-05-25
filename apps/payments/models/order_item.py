@@ -8,3 +8,6 @@ class OrderItem(BaseModel):
     user = models.ForeignKey('users.CustomUser', on_delete=models.PROTECT)
     order = models.ForeignKey('payments.Order', on_delete=models.PROTECT)
     quantity = models.PositiveSmallIntegerField(blank=True, null=True)
+
+    def __str__(self):
+        return f'{self.user.id}'

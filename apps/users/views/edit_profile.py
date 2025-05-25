@@ -12,7 +12,6 @@ from apps.utils.custom_exception import CustomAPIException
 class EditProfileAPIView(generics.UpdateAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = EditProfileSerializer
-    parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsAuthenticated]
 
     def get_object(self):

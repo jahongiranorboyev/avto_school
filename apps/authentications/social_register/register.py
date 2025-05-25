@@ -32,7 +32,7 @@ def register_social_user(provider, email, full_name, user_code, *args, **kwargs)
         if provider == 'telegram':
             user = {
                 'email': email,
-                'password': settings.SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET,
+                'password': "password",
                 'full_name': full_name
             }
 

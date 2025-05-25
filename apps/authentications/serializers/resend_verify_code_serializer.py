@@ -17,6 +17,7 @@ class ReSendVerifyCodeSerializer(serializers.Serializer):
     def validate(self, attrs):
         email = attrs['email']
         try:
+            print(self.CACHE_USER_EMAIL, email)
             saved_code = cache.get(self.CACHE_USER_CODE.format(email=email))
         except Exception:
             raise CustomAPIException(message=_('You should try again later'))

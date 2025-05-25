@@ -4,7 +4,7 @@ import logging
 
 from django.utils.translation import gettext_lazy as _
 
-from apps.general.views.custom_xception import CustomAPIException
+from apps.utils.custom_exception import CustomAPIException
 
 logger = logging.getLogger(__name__)
 
